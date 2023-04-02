@@ -16,6 +16,7 @@
 		3005EA5F29D8F18100F2CC70 /* CalTodoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3005EA5E29D8F18100F2CC70 /* CalTodoTests.swift */; };
 		3005EA6929D8F18100F2CC70 /* CalTodoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3005EA6829D8F18100F2CC70 /* CalTodoUITests.swift */; };
 		3005EA6B29D8F18100F2CC70 /* CalTodoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3005EA6A29D8F18100F2CC70 /* CalTodoUITestsLaunchTests.swift */; };
+		300FF0DA29D985B9003D1F70 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0D929D985B9003D1F70 /* Alarm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3005EA6429D8F18100F2CC70 /* CalTodoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalTodoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3005EA6829D8F18100F2CC70 /* CalTodoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalTodoUITests.swift; sourceTree = "<group>"; };
 		3005EA6A29D8F18100F2CC70 /* CalTodoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalTodoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		300FF0D929D985B9003D1F70 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +101,9 @@
 		3005EA4629D8F17F00F2CC70 /* CalTodo */ = {
 			isa = PBXGroup;
 			children = (
+				300FF0D629D98435003D1F70 /* modules */,
+				300FF0D529D98427003D1F70 /* ui */,
 				3005EA4729D8F17F00F2CC70 /* CalTodoApp.swift */,
-				3005EA4929D8F17F00F2CC70 /* Persistence.swift */,
-				3005EA4E29D8F17F00F2CC70 /* ContentView.swift */,
 				3005EA5029D8F18000F2CC70 /* Assets.xcassets */,
 				3005EA5229D8F18000F2CC70 /* CalTodo.entitlements */,
 				3005EA4B29D8F17F00F2CC70 /* CalTodo.xcdatamodeld */,
@@ -133,6 +135,39 @@
 				3005EA6A29D8F18100F2CC70 /* CalTodoUITestsLaunchTests.swift */,
 			);
 			path = CalTodoUITests;
+			sourceTree = "<group>";
+		};
+		300FF0D529D98427003D1F70 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				3005EA4E29D8F17F00F2CC70 /* ContentView.swift */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		300FF0D629D98435003D1F70 /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				300FF0D829D9859F003D1F70 /* alarm */,
+				300FF0D729D98592003D1F70 /* persistence */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		300FF0D729D98592003D1F70 /* persistence */ = {
+			isa = PBXGroup;
+			children = (
+				3005EA4929D8F17F00F2CC70 /* Persistence.swift */,
+			);
+			path = persistence;
+			sourceTree = "<group>";
+		};
+		300FF0D829D9859F003D1F70 /* alarm */ = {
+			isa = PBXGroup;
+			children = (
+				300FF0D929D985B9003D1F70 /* Alarm.swift */,
+			);
+			path = alarm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +302,7 @@
 			files = (
 				3005EA4829D8F17F00F2CC70 /* CalTodoApp.swift in Sources */,
 				3005EA4A29D8F17F00F2CC70 /* Persistence.swift in Sources */,
+				300FF0DA29D985B9003D1F70 /* Alarm.swift in Sources */,
 				3005EA4F29D8F17F00F2CC70 /* ContentView.swift in Sources */,
 				3005EA4D29D8F17F00F2CC70 /* CalTodo.xcdatamodeld in Sources */,
 			);
