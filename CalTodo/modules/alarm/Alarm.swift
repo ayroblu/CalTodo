@@ -23,20 +23,21 @@ func createNotification() {
     let content = UNMutableNotificationContent()
     content.title = "Alarm"
     content.body = "Wake up!"
-    content.sound = .default
+    content.sound = UNNotificationSound.ringtoneSoundNamed(.)
     content.categoryIdentifier = "alarm"
     content.userInfo = ["vibration": true]
 
     // AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {   }
 
-    let date = Date().addingTimeInterval(60) // the alarm will sound in 60 seconds
+    let date = Date().addingTimeInterval(5) // 5 seconds
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: date.timeIntervalSinceNow, repeats: false)
+    // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
     let request = UNNotificationRequest(identifier: "alarm", content: content, trigger: trigger)
 
     let center = UNUserNotificationCenter.current()
+    // center.removeAllPendingNotificationRequests()
     center.add(request)
     // center.delegate = self
-    center.removeAllPendingNotificationRequests()
 }
 
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
