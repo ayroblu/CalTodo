@@ -1,0 +1,22 @@
+{
+  "name": "apn-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx ts-node -T index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "apn": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "dotenv": "^16.0.3",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.3"
+  }
+}
