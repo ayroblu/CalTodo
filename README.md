@@ -19,6 +19,10 @@ UI Model
 Notification sound
 ------------------
 
+> https://stackoverflow.com/questions/43952714/ios-10-usernotifications-custom-sound-in-background-mode
+> https://stackoverflow.com/questions/46231153/how-to-add-sound-files-to-your-bundle-in-xcode
+> https://developer.apple.com/documentation/usernotifications/unnotificationsound
+
 ```
 ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -t 30 silence_30s.mp3
 afconvert silence_30s.mp3 silence_30s.caf -d ima4 -f caff -v

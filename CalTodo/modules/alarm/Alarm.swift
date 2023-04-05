@@ -8,11 +8,15 @@
 import Foundation
 import UserNotifications
 import AudioToolbox
+import UIKit
 
 func getPermission() {
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
         if granted {
             print("Authorization granted")
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
         } else {
             print("Authorization not granted")
         }
@@ -23,7 +27,7 @@ func createNotification() {
     let content = UNMutableNotificationContent()
     content.title = "Alarm"
     content.body = "Wake up!"
-    content.sound = UNNotificationSound.ringtoneSoundNamed(.)
+    content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence_30s.caf"))
     content.categoryIdentifier = "alarm"
     content.userInfo = ["vibration": true]
 
@@ -50,3 +54,4 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
     }
     completionHandler()
 }
+

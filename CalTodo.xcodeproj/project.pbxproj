@@ -21,6 +21,7 @@
 		300FF0DE29DA039E003D1F70 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0DD29DA039E003D1F70 /* SettingsView.swift */; };
 		300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0DF29DA03AF003D1F70 /* CalendarView.swift */; };
 		300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0E129DA0B44003D1F70 /* AppDelegate.swift */; };
+		300FF0E629DB8D36003D1F70 /* silence_30s.caf in Resources */ = {isa = PBXBuildFile; fileRef = 300FF0E529DB8D36003D1F70 /* silence_30s.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		300FF0DF29DA03AF003D1F70 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		300FF0E129DA0B44003D1F70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		300FF0E329DA0EF9003D1F70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		300FF0E529DB8D36003D1F70 /* silence_30s.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence_30s.caf; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 		3005EA4629D8F17F00F2CC70 /* CalTodo */ = {
 			isa = PBXGroup;
 			children = (
+				300FF0E429DB8D0A003D1F70 /* resources */,
 				300FF0E329DA0EF9003D1F70 /* Info.plist */,
 				300FF0D629D98435003D1F70 /* modules */,
 				300FF0D529D98427003D1F70 /* ui */,
@@ -182,6 +185,14 @@
 				300FF0D929D985B9003D1F70 /* Alarm.swift */,
 			);
 			path = alarm;
+			sourceTree = "<group>";
+		};
+		300FF0E429DB8D0A003D1F70 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				300FF0E529DB8D36003D1F70 /* silence_30s.caf */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3005EA5529D8F18000F2CC70 /* Preview Assets.xcassets in Resources */,
+				300FF0E629DB8D36003D1F70 /* silence_30s.caf in Resources */,
 				3005EA5129D8F18000F2CC70 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
