@@ -22,6 +22,7 @@
 		300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0DF29DA03AF003D1F70 /* CalendarView.swift */; };
 		300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0E129DA0B44003D1F70 /* AppDelegate.swift */; };
 		300FF0E629DB8D36003D1F70 /* silence_30s.caf in Resources */ = {isa = PBXBuildFile; fileRef = 300FF0E529DB8D36003D1F70 /* silence_30s.caf */; };
+		3099C2FC29DEA7AC007E726D /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FB29DEA7AC007E726D /* Example.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		300FF0E129DA0B44003D1F70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		300FF0E329DA0EF9003D1F70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		300FF0E529DB8D36003D1F70 /* silence_30s.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence_30s.caf; sourceTree = SOURCE_ROOT; };
+		3099C2FB29DEA7AC007E726D /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 		300FF0D629D98435003D1F70 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				3099C2FA29DEA784007E726D /* apis */,
 				300FF0D829D9859F003D1F70 /* alarm */,
 				300FF0D729D98592003D1F70 /* persistence */,
 			);
@@ -193,6 +196,14 @@
 				300FF0E529DB8D36003D1F70 /* silence_30s.caf */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		3099C2FA29DEA784007E726D /* apis */ = {
+			isa = PBXGroup;
+			children = (
+				3099C2FB29DEA7AC007E726D /* Example.swift */,
+			);
+			path = apis;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +341,7 @@
 				300FF0DC29DA0385003D1F70 /* TodoView.swift in Sources */,
 				300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */,
 				300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */,
+				3099C2FC29DEA7AC007E726D /* Example.swift in Sources */,
 				3005EA4829D8F17F00F2CC70 /* CalTodoApp.swift in Sources */,
 				3005EA4A29D8F17F00F2CC70 /* Persistence.swift in Sources */,
 				300FF0DA29D985B9003D1F70 /* Alarm.swift in Sources */,

@@ -32,3 +32,31 @@ References
 ----------
 - Local notifications when app is in foreground: https://stackoverflow.com/questions/65782435/receive-local-notifications-within-own-app-view-or-how-to-register-a-unuserno
 - https://developer.apple.com/documentation/usernotifications/scheduling_a_notification_locally_from_your_app
+- [Background Modes Tutorial](https://www.kodeco.com/34269507-background-modes-tutorial-getting-started#toc-anchor-013)
+- https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/pushing_background_updates_to_your_app
+  - Background push details
+- [Advances in App Background Execution](https://developer.apple.com/videos/play/wwdc2019/707/)
+  - BGTaskScheduler
+- [Background execution demystified](https://developer.apple.com/videos/play/wwdc2020/10063/)
+  - Apis
+    - BGAppRefreshTask
+    - background push
+    - URLSession
+    - BGProcessingTask
+  - 7 Factors that determine background running
+    - Critically low battery
+    - Low Power Mode
+    - App usage
+    - App switcher
+    - Background App Refresh switch
+    - System budgets
+    - Rate limiting
+  - 4 Background modes
+    - Background App Refresh tasks
+      - Refresh news feed
+    - Background pushes
+      - probably what I want to use
+    - Background URLSession's
+      - Finish a photo download?
+    - Background processing tasks
+      - index db
