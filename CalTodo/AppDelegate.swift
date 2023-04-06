@@ -16,32 +16,32 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     UNUserNotificationCenter.current().delegate = self
     return true
   }
-  func application(
-    _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-  ) {
-
-    // Print full message.
-    print(userInfo)
-    let task = beginBackgroundTask()
-
-    let url = URL(string: "https://jsonplaceholder.typicode.com/todos")!
-    URLSession.shared.fetchData(for: url) { (result: Result<[ToDo], Error>) in
-      switch result {
-      case .success(let toDos):
-        print("Success todos", toDos)
-        break
-      case .failure(let error):
-        print("failure", error)
-        break
-      }
-      endBackgroundTask(taskID: task)
-    }
-
-    // completionHandler()
-
-    completionHandler(UIBackgroundFetchResult.newData)
-  }
+  //  func application(
+  //    _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+  //    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  //  ) {
+  //
+  //    // Print full message.
+  //    print(userInfo)
+  //    let task = beginBackgroundTask()
+  //
+  //    let url = URL(string: "https://jsonplaceholder.typicode.com/todos")!
+  //    URLSession.shared.fetchData(for: url) { (result: Result<[ToDo], Error>) in
+  //      switch result {
+  //      case .success(let toDos):
+  //        print("Success todos", toDos)
+  //        break
+  //      case .failure(let error):
+  //        print("failure", error)
+  //        break
+  //      }
+  //      endBackgroundTask(taskID: task)
+  //    }
+  //
+  //    // completionHandler()
+  //
+  //    completionHandler(UIBackgroundFetchResult.newData)
+  //  }
 }
 func beginBackgroundTask() -> UIBackgroundTaskIdentifier {
   return UIApplication.shared.beginBackgroundTask(expirationHandler: {})
