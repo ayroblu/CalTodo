@@ -5,53 +5,57 @@
 //  Created by Ben Lu on 02/04/2023.
 //
 
-import Foundation
-import UserNotifications
 import AudioToolbox
+import Foundation
 import UIKit
+import UserNotifications
 
 func getPermission() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-        if granted {
-            print("Authorization granted")
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-        } else {
-            print("Authorization not granted")
-        }
+  UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+    granted, error in
+    if granted {
+      print("Authorization granted")
+      DispatchQueue.main.async {
+        UIApplication.shared.registerForRemoteNotifications()
+      }
+    } else {
+      print("Authorization not granted")
     }
+  }
 }
 
 func createNotification() {
-    let content = UNMutableNotificationContent()
-    content.title = "Alarm"
-    content.body = "Wake up!"
-    content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence_30s.caf"))
-    content.categoryIdentifier = "alarm"
-    content.userInfo = ["vibration": true]
+  let content = UNMutableNotificationContent()
+  content.title = "Alarm"
+  content.body = "Wake up!"
+  content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence_30s.caf"))
+  content.categoryIdentifier = "alarm"
+  content.userInfo = ["vibration": true]
 
-    // AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {   }
+  // AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {   }
 
-    let date = Date().addingTimeInterval(5) // 5 seconds
-    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: date.timeIntervalSinceNow, repeats: false)
-    // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-    let request = UNNotificationRequest(identifier: "alarm", content: content, trigger: trigger)
+  let date = Date().addingTimeInterval(5)  // 5 seconds
+  let trigger = UNTimeIntervalNotificationTrigger(
+    timeInterval: date.timeIntervalSinceNow, repeats: false)
+  // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+  let request = UNNotificationRequest(identifier: "alarm", content: content, trigger: trigger)
 
-    let center = UNUserNotificationCenter.current()
-    // center.removeAllPendingNotificationRequests()
-    center.add(request)
-    // center.delegate = self
+  let center = UNUserNotificationCenter.current()
+  // center.removeAllPendingNotificationRequests()
+  center.add(request)
+  // center.delegate = self
 }
 
-func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    let userInfo = response.notification.request.content.userInfo
-    if let vibration = userInfo["vibration"] as? Bool, vibration {
-        AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) {
-            // loop the vibration sound until the user interacts with the notification
-            AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate, nil)
-        }
+func userNotificationCenter(
+  _ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+  withCompletionHandler completionHandler: @escaping () -> Void
+) {
+  let userInfo = response.notification.request.content.userInfo
+  if let vibration = userInfo["vibration"] as? Bool, vibration {
+    AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) {
+      // loop the vibration sound until the user interacts with the notification
+      AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate, nil)
     }
-    completionHandler()
+  }
+  completionHandler()
 }
-
