@@ -16,6 +16,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     UNUserNotificationCenter.current().delegate = self
     return true
   }
+  func application(
+    _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
+    logExampleFile(str: "Hello")
+    let text = String(describing: userInfo)
+    logExampleFile(str: text)
+    completionHandler(.newData)
+  }
   //  func application(
   //    _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
   //    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
@@ -43,13 +52,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   //    completionHandler(UIBackgroundFetchResult.newData)
   //  }
 }
-func beginBackgroundTask() -> UIBackgroundTaskIdentifier {
-  return UIApplication.shared.beginBackgroundTask(expirationHandler: {})
-}
-
-func endBackgroundTask(taskID: UIBackgroundTaskIdentifier) {
-  UIApplication.shared.endBackgroundTask(taskID)
-}
+//func beginBackgroundTask() -> UIBackgroundTaskIdentifier {
+//  return UIApplication.shared.beginBackgroundTask(expirationHandler: {})
+//}
+//
+//func endBackgroundTask(taskID: UIBackgroundTaskIdentifier) {
+//  UIApplication.shared.endBackgroundTask(taskID)
+//}
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(

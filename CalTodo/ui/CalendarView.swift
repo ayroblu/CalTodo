@@ -8,9 +8,29 @@
 import SwiftUI
 
 struct CalendarView: View {
+  @State var logText: String = log
+
   var body: some View {
-    Text( /*@START_MENU_TOKEN@*/"Hello, World!" /*@END_MENU_TOKEN@*/)
+    VStack {
+      Text(logText)
+        .padding()
+      Button("add example") {
+        logExampleFile(str: "Example")
+        logText = log
+      }
+      .padding()
+      .buttonStyle(.bordered)
+      Button("clear") {
+        deleteExampleFile()
+        logText = log
+      }
+      .padding()
+      .buttonStyle(.bordered)
+    }
   }
+}
+private var log: String {
+  return readExampleFile() ?? "<empty>"
 }
 
 struct CalendarView_Previews: PreviewProvider {
