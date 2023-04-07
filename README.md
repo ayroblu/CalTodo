@@ -33,6 +33,7 @@ References
 - Local notifications when app is in foreground: https://stackoverflow.com/questions/65782435/receive-local-notifications-within-own-app-view-or-how-to-register-a-unuserno
 - https://developer.apple.com/documentation/usernotifications/scheduling_a_notification_locally_from_your_app
 - [Background Modes Tutorial](https://www.kodeco.com/34269507-background-modes-tutorial-getting-started#toc-anchor-013)
+- https://stackoverflow.com/questions/66057840/ios-how-do-you-implement-critical-alerts-for-your-app-when-you-dont-have-an-en
 - https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/pushing_background_updates_to_your_app
   - Background push details
 - [Advances in App Background Execution](https://developer.apple.com/videos/play/wwdc2019/707/)

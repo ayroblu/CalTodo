@@ -25,6 +25,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     logExampleFile(str: text)
     completionHandler(.newData)
   }
+
   //  func application(
   //    _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
   //    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void

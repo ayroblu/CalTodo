@@ -24,24 +24,36 @@ func getPermission() {
   }
 }
 
-func createNotification() {
+func createManyNotification() {
+  createNotification(timeInterval: 3)
+  createNotification(timeInterval: 4)
+  createNotification(timeInterval: 5)
+  createNotification(timeInterval: 6)
+  createNotification(timeInterval: 7)
+}
+func createNotification(timeInterval: TimeInterval = 5) {
   let content = UNMutableNotificationContent()
   content.title = "Alarm"
   content.body = "Wake up!"
-  content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence_30s.caf"))
+  content.sound = .default
+  // content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence_30s.caf"))
   content.categoryIdentifier = "alarm"
-  content.userInfo = ["vibration": true]
+  // content.userInfo = ["vibration": true]
+  content.interruptionLevel = .active
 
   // AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {   }
 
-  let date = Date().addingTimeInterval(5)  // 5 seconds
+  let date = Date().addingTimeInterval(timeInterval)  // 5 seconds
   let trigger = UNTimeIntervalNotificationTrigger(
     timeInterval: date.timeIntervalSinceNow, repeats: false)
   // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-  let request = UNNotificationRequest(identifier: "alarm", content: content, trigger: trigger)
+  let request = UNNotificationRequest(
+    identifier: UUID().uuidString, content: content, trigger: trigger)
 
   let center = UNUserNotificationCenter.current()
   // center.removeAllPendingNotificationRequests()
+  // center.removeAllDeliveredNotifications()
+  // center.removeDeliveredNotifications(withIdentifiers: ["your notification identifier"])
   center.add(request)
   // center.delegate = self
 }

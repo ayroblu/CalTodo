@@ -1,6 +1,9 @@
 import * as dotenv from "dotenv";
 import apn from "apn";
+import { inspect } from "util";
+
 dotenv.config();
+inspect.defaultOptions.depth = null;
 
 const options = {
   token: {
@@ -14,30 +17,35 @@ const options = {
 const apnProvider = new apn.Provider(options);
 const deviceToken = process.env.DEVICE_TOKEN ?? "";
 
-// const note = new apn.Notification({
-//   alert: "\uD83D\uDCE7 \u2709 You have a new message",
-//   topic: "com.ayroblu.CalTodo",
-//   expiry: Math.floor(Date.now() / 1000) + 3600, // Expires 1 hour from now.
-// });
 const note = new apn.Notification({
-  // alert: "\uD83D\uDCE7 \u2709 You have a new message",
+  alert: {
+    title: "Add more todo items",
+    subtitle: "Use your notes",
+    body: "Look for you notes in vim",
+  },
   topic: "com.ayroblu.CalTodo",
   expiry: Math.floor(Date.now() / 1000) + 3600, // Expires 1 hour from now.
+  sound: "default",
   contentAvailable: 1,
-  priority: 5,
-  pushType: "background",
-  payload: { messageFrom: "John Appleseed" },
-  // mutableContent: 1,
-  // For background pushes:
-  // "content-available": "1",
-  // "apns-priority": "5",
-  // "apns-push-type": "background",
-  // "interruption-level": "time-sensitive",
 });
+// const note = new apn.Notification({
+//   topic: "com.ayroblu.CalTodo",
+//   expiry: Math.floor(Date.now() / 1000) + 3600, // Expires 1 hour from now.
+//   contentAvailable: 1,
+//   priority: 5,
+//   pushType: "background",
+//   payload: { messageFrom: "John Appleseed" },
+// });
 
 // note.badge = 3;
 // note.sound = "ping.aiff";
 // note.payload = { messageFrom: "John Appleseed" };
+// mutableContent: 1,
+// For background pushes:
+// "content-available": "1",
+// "apns-priority": "5",
+// "apns-push-type": "background",
+// "interruption-level": "time-sensitive",
 
 console.log("sending");
 apnProvider

@@ -13,9 +13,13 @@ struct TodoView: View {
       Button("Request permission") {
         getPermission()
       }
+      .padding()
+      .buttonStyle(.bordered)
       Button("Create notification") {
-        createNotification()
+        createManyNotification()
       }
+      .padding()
+      .buttonStyle(.bordered)
     }
   }
 }
