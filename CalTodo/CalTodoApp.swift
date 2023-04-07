@@ -11,11 +11,25 @@ import SwiftUI
 struct CalTodoApp: App {
   let persistenceController = PersistenceController.shared
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  @Environment(\.scenePhase) var scenePhase
 
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environment(\.managedObjectContext, persistenceController.container.viewContext)
+    }
+    .onChange(of: scenePhase) { newPhase in
+      if newPhase == .inactive {
+        print("Inactive")
+      } else if newPhase == .active {
+        print("Active")
+        let center = UNUserNotificationCenter.current()
+        // TODO: Use saved / specific identifiers
+        center.removeAllDeliveredNotifications()
+        center.removeAllPendingNotificationRequests()
+      } else if newPhase == .background {
+        print("Background")
+      }
     }
   }
 }

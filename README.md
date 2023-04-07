@@ -61,3 +61,5 @@ References
       - Finish a photo download?
     - Background processing tasks
       - index db
+- https://stackoverflow.com/questions/41378842/notification-service-extension-for-local-notification
+  - Notification Content Extensions are interesting too

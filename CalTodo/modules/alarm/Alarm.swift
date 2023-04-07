@@ -33,7 +33,7 @@ func createManyNotification() {
 }
 func createNotification(timeInterval: TimeInterval = 5) {
   let content = UNMutableNotificationContent()
-  content.title = "Alarm"
+  content.title = "Alarm \(timeInterval)"
   content.body = "Wake up!"
   content.sound = .default
   // content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence_30s.caf"))

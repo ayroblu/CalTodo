@@ -12,20 +12,30 @@ struct CalendarView: View {
 
   var body: some View {
     VStack {
-      Text(logText)
-        .padding()
-      Button("add example") {
-        logExampleFile(str: "Example")
-        logText = log
+      ScrollView {
+        Text(logText)
+          .padding()
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }.overlay(alignment: .bottom) {
+        HStack {
+          Button("add example") {
+            logExampleFile(str: "Example")
+            logText = log
+          }
+          .buttonStyle(.bordered)
+          .background()
+          .frame(maxWidth: .infinity)
+          Button("clear") {
+            deleteExampleFile()
+            logText = log
+          }
+          .buttonStyle(.bordered)
+          .background()
+          .frame(maxWidth: .infinity)
+        }
+        .padding(.bottom)
+        .frame(maxWidth: .infinity)
       }
-      .padding()
-      .buttonStyle(.bordered)
-      Button("clear") {
-        deleteExampleFile()
-        logText = log
-      }
-      .padding()
-      .buttonStyle(.bordered)
     }
   }
 }

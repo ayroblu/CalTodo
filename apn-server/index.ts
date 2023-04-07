@@ -27,6 +27,7 @@ const note = new apn.Notification({
   expiry: Math.floor(Date.now() / 1000) + 3600, // Expires 1 hour from now.
   sound: "default",
   contentAvailable: 1,
+  mutableContent: 1,
 });
 // const note = new apn.Notification({
 //   topic: "com.ayroblu.CalTodo",

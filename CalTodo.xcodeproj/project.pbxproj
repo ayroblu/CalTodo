@@ -24,6 +24,8 @@
 		300FF0E629DB8D36003D1F70 /* silence_30s.caf in Resources */ = {isa = PBXBuildFile; fileRef = 300FF0E529DB8D36003D1F70 /* silence_30s.caf */; };
 		3099C2FC29DEA7AC007E726D /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FB29DEA7AC007E726D /* Example.swift */; };
 		3099C2FF29DF65FD007E726D /* PersistedTodoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */; };
+		30BA66C029E051C600582498 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA66BF29E051C600582498 /* NotificationService.swift */; };
+		30BA66C429E051C600582498 /* notification-handler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 30BA66BD29E051C600582498 /* notification-handler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +43,28 @@
 			remoteGlobalIDString = 3005EA4329D8F17F00F2CC70;
 			remoteInfo = CalTodo;
 		};
+		30BA66C229E051C600582498 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3005EA3C29D8F17F00F2CC70 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 30BA66BC29E051C600582498;
+			remoteInfo = "notification-handler";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		30BA66C829E051C600582498 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				30BA66C429E051C600582498 /* notification-handler.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3005EA4429D8F17F00F2CC70 /* CalTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +89,9 @@
 		300FF0E529DB8D36003D1F70 /* silence_30s.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence_30s.caf; sourceTree = SOURCE_ROOT; };
 		3099C2FB29DEA7AC007E726D /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedTodoFile.swift; sourceTree = "<group>"; };
+		30BA66BD29E051C600582498 /* notification-handler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "notification-handler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30BA66BF29E051C600582498 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		30BA66C129E051C600582498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +116,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		30BA66BA29E051C600582498 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -99,6 +132,7 @@
 				3005EA4629D8F17F00F2CC70 /* CalTodo */,
 				3005EA5D29D8F18100F2CC70 /* CalTodoTests */,
 				3005EA6729D8F18100F2CC70 /* CalTodoUITests */,
+				30BA66BE29E051C600582498 /* notification-handler */,
 				3005EA4529D8F17F00F2CC70 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +143,7 @@
 				3005EA4429D8F17F00F2CC70 /* CalTodo.app */,
 				3005EA5A29D8F18100F2CC70 /* CalTodoTests.xctest */,
 				3005EA6429D8F18100F2CC70 /* CalTodoUITests.xctest */,
+				30BA66BD29E051C600582498 /* notification-handler.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,12 +155,12 @@
 				300FF0E329DA0EF9003D1F70 /* Info.plist */,
 				300FF0D629D98435003D1F70 /* modules */,
 				300FF0D529D98427003D1F70 /* ui */,
+				300FF0E129DA0B44003D1F70 /* AppDelegate.swift */,
 				3005EA4729D8F17F00F2CC70 /* CalTodoApp.swift */,
 				3005EA5029D8F18000F2CC70 /* Assets.xcassets */,
 				3005EA5229D8F18000F2CC70 /* CalTodo.entitlements */,
 				3005EA4B29D8F17F00F2CC70 /* CalTodo.xcdatamodeld */,
 				3005EA5329D8F18000F2CC70 /* Preview Content */,
-				300FF0E129DA0B44003D1F70 /* AppDelegate.swift */,
 			);
 			path = CalTodo;
 			sourceTree = "<group>";
@@ -217,6 +252,15 @@
 			path = todos;
 			sourceTree = "<group>";
 		};
+		30BA66BE29E051C600582498 /* notification-handler */ = {
+			isa = PBXGroup;
+			children = (
+				30BA66BF29E051C600582498 /* NotificationService.swift */,
+				30BA66C129E051C600582498 /* Info.plist */,
+			);
+			path = "notification-handler";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -228,10 +272,12 @@
 				3005EA4129D8F17F00F2CC70 /* Frameworks */,
 				3005EA4229D8F17F00F2CC70 /* Resources */,
 				3099C2FD29DF627C007E726D /* Run Script swift-format */,
+				30BA66C829E051C600582498 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				30BA66C329E051C600582498 /* PBXTargetDependency */,
 			);
 			name = CalTodo;
 			productName = CalTodo;
@@ -274,6 +320,23 @@
 			productReference = 3005EA6429D8F18100F2CC70 /* CalTodoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		30BA66BC29E051C600582498 /* notification-handler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30BA66C529E051C600582498 /* Build configuration list for PBXNativeTarget "notification-handler" */;
+			buildPhases = (
+				30BA66B929E051C600582498 /* Sources */,
+				30BA66BA29E051C600582498 /* Frameworks */,
+				30BA66BB29E051C600582498 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "notification-handler";
+			productName = "notification-handler";
+			productReference = 30BA66BD29E051C600582498 /* notification-handler.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -281,7 +344,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					3005EA4329D8F17F00F2CC70 = {
@@ -294,6 +357,9 @@
 					3005EA6329D8F18100F2CC70 = {
 						CreatedOnToolsVersion = 14.0.1;
 						TestTargetID = 3005EA4329D8F17F00F2CC70;
+					};
+					30BA66BC29E051C600582498 = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -313,6 +379,7 @@
 				3005EA4329D8F17F00F2CC70 /* CalTodo */,
 				3005EA5929D8F18100F2CC70 /* CalTodoTests */,
 				3005EA6329D8F18100F2CC70 /* CalTodoUITests */,
+				30BA66BC29E051C600582498 /* notification-handler */,
 			);
 		};
 /* End PBXProject section */
@@ -336,6 +403,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3005EA6229D8F18100F2CC70 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30BA66BB29E051C600582498 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -402,6 +476,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		30BA66B929E051C600582498 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30BA66C029E051C600582498 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -414,6 +496,11 @@
 			isa = PBXTargetDependency;
 			target = 3005EA4329D8F17F00F2CC70 /* CalTodo */;
 			targetProxy = 3005EA6529D8F18100F2CC70 /* PBXContainerItemProxy */;
+		};
+		30BA66C329E051C600582498 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 30BA66BC29E051C600582498 /* notification-handler */;
+			targetProxy = 30BA66C229E051C600582498 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -532,6 +619,7 @@
 		3005EA6F29D8F18100F2CC70 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CalTodo/CalTodo.entitlements;
@@ -572,6 +660,7 @@
 		3005EA7029D8F18100F2CC70 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CalTodo/CalTodo.entitlements;
@@ -703,6 +792,61 @@
 			};
 			name = Release;
 		};
+		30BA66C629E051C600582498 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MT8GVH9FL2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "notification-handler/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "notification-handler";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ayroblu.CalTodo.notification-handler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		30BA66C729E051C600582498 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MT8GVH9FL2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "notification-handler/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "notification-handler";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ayroblu.CalTodo.notification-handler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -738,6 +882,15 @@
 			buildConfigurations = (
 				3005EA7529D8F18100F2CC70 /* Debug */,
 				3005EA7629D8F18100F2CC70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30BA66C529E051C600582498 /* Build configuration list for PBXNativeTarget "notification-handler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30BA66C629E051C600582498 /* Debug */,
+				30BA66C729E051C600582498 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
