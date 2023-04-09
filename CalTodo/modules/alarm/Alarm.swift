@@ -71,3 +71,39 @@ func userNotificationCenter(
   }
   completionHandler()
 }
+
+/// will only do it for 30s cause it's in the background only
+func vibrateContinuously(completion: @escaping () -> Void) {
+  func makeNextFunc() {
+    if UIApplication.shared.applicationState == .background {
+      AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate)) {
+        DispatchQueue.main.async {
+          makeNextFunc()
+        }
+      }
+    } else {
+      completion()
+    }
+  }
+  makeNextFunc()
+}
+
+func vibrate(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .heavy) {
+  let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: style)
+  impactFeedbackgenerator.prepare()
+  impactFeedbackgenerator.impactOccurred()
+}
+
+func vibrateBomb() {
+  for i in 0...4 {
+    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i * 1) / 3) {
+      vibrate()
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i * 1) / 5) {
+      vibrate()
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i * 1) / 8) {
+      vibrate()
+    }
+  }
+}

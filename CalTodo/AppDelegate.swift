@@ -5,6 +5,7 @@
 //  Created by Ben Lu on 02/04/2023.
 //
 
+import AudioToolbox
 import Foundation
 import UIKit
 
@@ -22,8 +23,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   ) {
     logExampleFile(str: "Hello")
     let text = String(describing: userInfo)
-    logExampleFile(str: text)
-    completionHandler(.newData)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+      logExampleFile(str: "2s?")
+      vibrateContinuously {
+        logExampleFile(str: text)
+        completionHandler(.newData)
+      }
+    }
   }
 
   //  func application(

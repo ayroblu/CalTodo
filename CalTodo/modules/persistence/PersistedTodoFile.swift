@@ -10,11 +10,26 @@ import Foundation
 let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 let url = documentsDirectory.appendingPathComponent("todos.json")
 
-struct Todo: Codable {
-  var status: String
+struct Todo: Codable, Identifiable {
+  var id: String = UUID().uuidString
   var title: String
-  var startIsoDate: String
-  var endIsoDate: String
+  var status: String = "todo"
+  var isCompleted: Bool {
+    status == "done"
+  }
+  var startDate: Date = Date()
+  // var startIsoDate: String?
+  //  var startDate: Date? {
+  //    if let startIsoDate = startIsoDate {
+  //      let newFormatter = ISO8601DateFormatter()
+  //      return newFormatter.date(from: startIsoDate)
+  //    } else {
+  //      return nil
+  //    }
+  //  }
+  var durationMinutes: Int?
+  // var endIsoDate: String?
+  var notes: String = ""
 }
 
 func loadTodos() -> [Todo]? {

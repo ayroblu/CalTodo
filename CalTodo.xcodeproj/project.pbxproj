@@ -26,6 +26,7 @@
 		3099C2FF29DF65FD007E726D /* PersistedTodoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */; };
 		30BA66C029E051C600582498 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA66BF29E051C600582498 /* NotificationService.swift */; };
 		30BA66C429E051C600582498 /* notification-handler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 30BA66BD29E051C600582498 /* notification-handler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		30BA66CC29E30EC500582498 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA66CB29E30EC500582498 /* TodoListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		30BA66BD29E051C600582498 /* notification-handler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "notification-handler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30BA66BF29E051C600582498 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		30BA66C129E051C600582498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30BA66CB29E30EC500582498 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 				300FF0DB29DA0385003D1F70 /* TodoView.swift */,
 				300FF0DD29DA039E003D1F70 /* SettingsView.swift */,
 				300FF0DF29DA03AF003D1F70 /* CalendarView.swift */,
+				30BA66CB29E30EC500582498 /* TodoListView.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			files = (
 				300FF0DE29DA039E003D1F70 /* SettingsView.swift in Sources */,
 				300FF0DC29DA0385003D1F70 /* TodoView.swift in Sources */,
+				30BA66CC29E30EC500582498 /* TodoListView.swift in Sources */,
 				300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */,
 				300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */,
 				3099C2FF29DF65FD007E726D /* PersistedTodoFile.swift in Sources */,

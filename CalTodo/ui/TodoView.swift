@@ -9,17 +9,26 @@ import SwiftUI
 
 struct TodoView: View {
   var body: some View {
-    VStack {
-      Button("Request permission") {
-        getPermission()
+    if true {
+      TodoListView()
+    } else {
+      VStack {
+        Button("Request permission") {
+          getPermission()
+        }
+        .padding()
+        .buttonStyle(.bordered)
+        Button("Create notification") {
+          createManyNotification()
+        }
+        .padding()
+        .buttonStyle(.bordered)
+        Button("Create Vibration") {
+          vibrateBomb()
+        }
+        .padding()
+        .buttonStyle(.bordered)
       }
-      .padding()
-      .buttonStyle(.bordered)
-      Button("Create notification") {
-        createManyNotification()
-      }
-      .padding()
-      .buttonStyle(.bordered)
     }
   }
 }
