@@ -20,6 +20,7 @@ struct TodoListView: View {
           TodoItemView(todoId: todoId, index: index, focusedIndex: $focusedIndex)
         }
         .onDelete(perform: todoStore.deleteTodo)
+        .onMove(perform: todoStore.moveTodo)
       }
       .navigationTitle("Todo List")
       .listStyle(.grouped)

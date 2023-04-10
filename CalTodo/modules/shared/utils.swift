@@ -13,6 +13,17 @@ extension Collection {
     return indices.contains(index) ? self[index] : nil
   }
 }
+extension Array {
+  func allIndices(where pred: (Element) -> Bool) -> IndexSet {
+    var result = IndexSet()
+    for (index, value) in self.enumerated() {
+      if pred(value) {
+        result.insert(index)
+      }
+    }
+    return result
+  }
+}
 // https://forums.swift.org/t/comparing-enum-cases-while-ignoring-associated-values/15922/7
 // https://forums.swift.org/t/getting-the-name-of-a-swift-enum-value/35654/17
 @_silgen_name("swift_EnumCaseName")

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class TodoStore: ObservableObject {
   @Published private(set) var todoMap: [String: Todo] = [:]
@@ -44,6 +45,10 @@ class TodoStore: ObservableObject {
     let ids = offsets.map { todoListIds[$0] }
     run(action: .remove(ids))
   }
+  func moveTodo(from source: IndexSet, to destination: Int) {
+    let ids = source.map { todoListIds[$0] }
+    run(action: .move(ids, destination))
+  }
 
   // TODO: If action is performed on child screen, remove from undo stack? Perform navigation?
   private var isUndoGrouping = false
@@ -77,6 +82,10 @@ class TodoStore: ObservableObject {
       todoMap[id]?.notes = notes
     case .editStatus(let id, let status):
       todoMap[id]?.status = status
+    case .move(let ids, let destinationIndex):
+      let idsSet = Set(ids)
+      let indices = todoListIds.allIndices(where: { id in idsSet.contains(id) })
+      todoListIds.move(fromOffsets: indices, toOffset: min(destinationIndex, todoListIds.endIndex))
     case .remove(let ids):
       let idsSet = Set(ids)
       todoListIds.removeAll(where: { idsSet.contains($0) })
@@ -93,7 +102,9 @@ class TodoStore: ObservableObject {
       handleGrouping(action: action)
     }
     undoManager.registerUndo(withTarget: self) { store in
-      store.run(action: undoAction)
+      withAnimation {
+        store.run(action: undoAction)
+      }
     }
   }
   // TODO: Leverage this to build a buffer of log events that you can compact in memory before persisting in the log
@@ -137,6 +148,12 @@ class TodoStore: ObservableObject {
     case .editStatus(let id, _):
       if let status = todoMap[id]?.status {
         return .editStatus(id, status)
+      }
+    case .move(let ids, let index):
+      if let id = ids.first, let undoIndex = todoListIds.firstIndex(of: id) {
+        // offset 1 cause when you move an item down, it also decreases the indices by 1
+        let offset = index < undoIndex ? 1 : 0
+        return .move(ids, undoIndex + offset)
       }
     case .remove(let ids):
       if let id = ids.first, let index = todoListIds.firstIndex(of: id) {
@@ -195,6 +212,7 @@ enum TodoAction: Codable, Equatable {
   case editDurationMinutes(TodoId, Int)
   case editNotes(TodoId, String)
   case editStatus(TodoId, String)
+  case move([TodoId], Int)
   case remove([TodoId])
   case noop
 
