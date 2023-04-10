@@ -4,44 +4,38 @@ Cal Todo
 This is a todo app based on a calendar.
 The tricky part of calendar events is that they're fixed in time, but most of the time I want to complete a task "when I'm at home" or "during work hours" or similar. This requires a more flexible set of scheduling requirements.
 
-1. Need to make a "calendar"
-2. Need to be able to schedule events on the calendar (form)
-3. Edit form
-4. Sync with Dropbox (and with CloudKit probably)
-5. Set alarms / notifications
-
 Ideas
 -----
 - Group by Work / Personal
-- Account for public holidays + vacation
-- Contextual events like Birthday (do nothing?) or public holidays (cancel meetings)
+- Contextual events like Birthday (do nothing?) or public holidays/vacation (cancel meetings)
   - Working hours, for example to account for the commute (most people it doesn't vary that much...)
 - Location - alerts to leave at a certain time, public transport etc?
 - Repeat rules:
   - Every monday, next day for public holidays? - handle clashes?
   - Handle one off cancellations / movements
 - Mark as time sensitive - can't "move", alternatively, non time sensitive ones can move around according to the group. Group doesn't matter for non time sensitive ones.
-- Alert type - sound? vibration? macOS, or phone alert?
-- Add notes
 
-TODO
-----
-1. Notification methods:
+- notifications
+  - Alert type - sound? vibration? macOS, or phone alert?
   - create notifications (specify seconds = number of notifications)
   - On open, cancel all notifications for that "group"
     - getAllPendingNotifications
   - Remote notifications can do background app stuff like vibrate.
   - Handle notification actions
-2. Build a calendar UI (do I really want this?)
+- Build a calendar UI (do I really want this?)
   - Could integrate with gcal? All edits trigger changes to gcal?
-3. Add a calendar/todo add / edit UI
+- Add/Edit UI
   - Time + duration
   - Timezones
-4. TodoList page with date breaks
-  - TodoList without time sensitive ones?
-  - Subgroups? e.g. there's normal todos and then there's all including events
-  - Add item to todolist
-  - Reorder items
+  - Add notes
+
+TODO
+----
+- Persist data on disk (perhaps on app quit?)
+- Add new items
+- cloud sync?
+- macOS integration?
+- Handle duration
 
 ### Data
 - List of notifications
