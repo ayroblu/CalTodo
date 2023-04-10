@@ -8,78 +8,20 @@
 import SwiftUI
 
 struct TodoListView: View {
-  @State var todos: [Todo] = [
-    Todo(title: "Make the TodoListView", status: "done"),
-    Todo(title: "Editable like reminders"),
-    Todo(
-      title: "What happens if this text is really long and overflows? Whatever overflowing means"),
-    Todo(title: "Laundry tidy"),
-    Todo(title: "Physical mail"),
-    Todo(title: "Food"),
-    Todo(title: "Archery"),
-    Todo(title: "Emails"),
-    Todo(title: "Decide on how to do grouping, perhaps simply a thin colored border on one side?"),
-    Todo(
-      title:
-        "Need to open todo with more detail, maybe shouldn't use textinput here. Need to show the pivot icon?"
-    ),
-    Todo(title: "Clean my screen"),
-    Todo(title: "Add actions to notifications"),
-    Todo(title: "Read through reading list"),
-    Todo(title: "Make the TodoListView"),
-    Todo(title: "Make the TodoListView"),
-  ]
+  @EnvironmentObject private var todoStore: TodoStore
+  @State private var textInput: String = ""
+
   var body: some View {
     NavigationView {
       List {
-        ForEach($todos) { $todo in
-          NavigationLink {
-            List {
-              Section {
-                TextField(
-                  "Todo Text",
-                  text: $todo.title, axis: .vertical
-                )
-              }
-              DatePicker(
-                "Start Date", selection: $todo.startDate)
-              Section {
-                TextField(
-                  "Notes",
-                  text: $todo.notes, axis: .vertical
-                )
-                .lineLimit(10, reservesSpace: true)
-              }
-            }
-            .listStyle(.grouped)
-          } label: {
-            HStack(alignment: .firstTextBaseline) {
-              if todo.isCompleted {
-                Image(systemName: "checkmark.circle.fill")
-                  .onTapGesture {
-                    todo.status = "todo"
-                  }
-                  .opacity(0.5)
-                Text(todo.title)
-                  .strikethrough()
-                  .opacity(0.5)
-              } else {
-                Image(systemName: "circle")
-                  .onTapGesture {
-                    todo.status = "done"
-                  }
-                TextField(
-                  "Todo tasks",
-                  text: $todo.title, axis: .vertical
-                )
-              }
-            }
-          }
+        ForEach(todoStore.todoListIds, id: \.self) { todoId in
+          TodoItemView(todoId: todoId)
         }
-        .onDelete(perform: delete)
+        .onDelete(perform: todoStore.deleteTodo)
       }
       .navigationTitle("Todo List")
       .listStyle(.grouped)
+      .scrollDismissesKeyboard(.immediately)
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -98,13 +40,82 @@ struct TodoListView: View {
       }
     }
   }
-  private func delete(at offsets: IndexSet) {
-    todos.remove(atOffsets: offsets)
+}
+
+struct TodoItemView: View {
+  @EnvironmentObject private var todoStore: TodoStore
+  var todoId: String
+  var todo: Todo {
+    todoStore.todoMap[todoId]!
+  }
+
+  var body: some View {
+    let btodoTitle: Binding<String> = Binding(
+      get: { todo.title },
+      set: {
+        todoStore.run(action: .editTitle(todoId, $0))
+      }
+    )
+    let btodoNotes: Binding<String> = Binding(
+      get: { todo.notes },
+      set: {
+        todoStore.run(action: .editNotes(todoId, $0))
+      }
+    )
+    let btodoStartDate: Binding<Date> = Binding(
+      get: { todo.startDate ?? Date() },
+      set: {
+        todoStore.run(action: .editStartDate(todoId, $0))
+      }
+    )
+    return NavigationLink {
+      List {
+        Section {
+          TextField(
+            "Todo Text",
+            text: btodoTitle, axis: .vertical
+          )
+        }
+        DatePicker(
+          "Start Date", selection: btodoStartDate)
+        Section {
+          TextField(
+            "Notes",
+            text: btodoNotes, axis: .vertical
+          )
+          .lineLimit(10, reservesSpace: true)
+        }
+      }
+      .listStyle(.grouped)
+    } label: {
+      HStack(alignment: .firstTextBaseline) {
+        if todo.isCompleted {
+          Image(systemName: "checkmark.circle.fill")
+            .onTapGesture {
+              todoStore.run(action: .editStatus(todoId, "todo"))
+            }
+            .opacity(0.5)
+          Text(todo.title)
+            .strikethrough()
+            .opacity(0.5)
+        } else {
+          Image(systemName: "circle")
+            .onTapGesture {
+              todoStore.run(action: .editStatus(todoId, "done"))
+            }
+          TextField(
+            "Todo tasks",
+            text: btodoTitle, axis: .vertical  // there's a bug with this that makes it twice as big when empty
+          )
+        }
+      }
+    }
   }
 }
 
 struct TodoListView_Previews: PreviewProvider {
   static var previews: some View {
     TodoListView()
+      .environmentObject(TodoStore())
   }
 }

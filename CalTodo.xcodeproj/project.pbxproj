@@ -22,6 +22,10 @@
 		300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0DF29DA03AF003D1F70 /* CalendarView.swift */; };
 		300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0E129DA0B44003D1F70 /* AppDelegate.swift */; };
 		300FF0E629DB8D36003D1F70 /* silence_30s.caf in Resources */ = {isa = PBXBuildFile; fileRef = 300FF0E529DB8D36003D1F70 /* silence_30s.caf */; };
+		30382F6A29E33DFD00C6EF57 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6929E33DFD00C6EF57 /* TodoStore.swift */; };
+		30382F7029E37BC700C6EF57 /* TodoStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */; };
+		30382F7129E37CB800C6EF57 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6929E33DFD00C6EF57 /* TodoStore.swift */; };
+		30382F7229E384E100C6EF57 /* PersistedTodoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */; };
 		3099C2FC29DEA7AC007E726D /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FB29DEA7AC007E726D /* Example.swift */; };
 		3099C2FF29DF65FD007E726D /* PersistedTodoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */; };
 		30BA66C029E051C600582498 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA66BF29E051C600582498 /* NotificationService.swift */; };
@@ -88,6 +92,8 @@
 		300FF0E129DA0B44003D1F70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		300FF0E329DA0EF9003D1F70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		300FF0E529DB8D36003D1F70 /* silence_30s.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence_30s.caf; sourceTree = SOURCE_ROOT; };
+		30382F6929E33DFD00C6EF57 /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
+		30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStoreTests.swift; sourceTree = "<group>"; };
 		3099C2FB29DEA7AC007E726D /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedTodoFile.swift; sourceTree = "<group>"; };
 		30BA66BD29E051C600582498 /* notification-handler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "notification-handler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +184,7 @@
 		3005EA5D29D8F18100F2CC70 /* CalTodoTests */ = {
 			isa = PBXGroup;
 			children = (
+				30382F6D29E37BAA00C6EF57 /* modules */,
 				3005EA5E29D8F18100F2CC70 /* CalTodoTests.swift */,
 			);
 			path = CalTodoTests;
@@ -240,6 +247,22 @@
 			path = resources;
 			sourceTree = "<group>";
 		};
+		30382F6D29E37BAA00C6EF57 /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				30382F6E29E37BB200C6EF57 /* todos */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		30382F6E29E37BB200C6EF57 /* todos */ = {
+			isa = PBXGroup;
+			children = (
+				30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */,
+			);
+			path = todos;
+			sourceTree = "<group>";
+		};
 		3099C2FA29DEA784007E726D /* apis */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +274,7 @@
 		30BA66B829DF685F00582498 /* todos */ = {
 			isa = PBXGroup;
 			children = (
+				30382F6929E33DFD00C6EF57 /* TodoStore.swift */,
 			);
 			path = todos;
 			sourceTree = "<group>";
@@ -451,6 +475,7 @@
 				300FF0DE29DA039E003D1F70 /* SettingsView.swift in Sources */,
 				300FF0DC29DA0385003D1F70 /* TodoView.swift in Sources */,
 				30BA66CC29E30EC500582498 /* TodoListView.swift in Sources */,
+				30382F6A29E33DFD00C6EF57 /* TodoStore.swift in Sources */,
 				300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */,
 				300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */,
 				3099C2FF29DF65FD007E726D /* PersistedTodoFile.swift in Sources */,
@@ -468,6 +493,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3005EA5F29D8F18100F2CC70 /* CalTodoTests.swift in Sources */,
+				30382F7029E37BC700C6EF57 /* TodoStoreTests.swift in Sources */,
+				30382F7129E37CB800C6EF57 /* TodoStore.swift in Sources */,
+				30382F7229E384E100C6EF57 /* PersistedTodoFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

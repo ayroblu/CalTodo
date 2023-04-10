@@ -9,9 +9,7 @@ import SwiftUI
 
 struct TodoView: View {
   var body: some View {
-    if true {
-      TodoListView()
-    } else {
+    #if SWIFT_ONE
       VStack {
         Button("Request permission") {
           getPermission()
@@ -29,7 +27,9 @@ struct TodoView: View {
         .padding()
         .buttonStyle(.bordered)
       }
-    }
+    #else
+      TodoListView()
+    #endif
   }
 }
 

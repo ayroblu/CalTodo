@@ -10,14 +10,14 @@ import Foundation
 let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 let url = documentsDirectory.appendingPathComponent("todos.json")
 
-struct Todo: Codable, Identifiable {
+struct Todo: Codable, Identifiable, Equatable {
   var id: String = UUID().uuidString
   var title: String
   var status: String = "todo"
   var isCompleted: Bool {
     status == "done"
   }
-  var startDate: Date = Date()
+  var startDate: Date?
   // var startIsoDate: String?
   //  var startDate: Date? {
   //    if let startIsoDate = startIsoDate {

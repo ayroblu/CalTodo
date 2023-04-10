@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
   @Environment(\.managedObjectContext) private var viewContext
+  @StateObject private var todoStore: TodoStore = TodoStore()
 
   var body: some View {
     TabView {
@@ -26,12 +27,15 @@ struct ContentView: View {
           Label("Settings", systemImage: "gear")
         }
     }
+    .environmentObject(todoStore)
   }
 }
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView().environment(
-      \.managedObjectContext, PersistenceController.preview.container.viewContext)
+      \.managedObjectContext, PersistenceController.preview.container.viewContext
+    )
+    .environmentObject(TodoStore())
   }
 }
