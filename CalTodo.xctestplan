@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "C8FF8D1F-74A3-4A2F-96E8-FB4192A51440",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CalTodo.xcodeproj",
+      "identifier" : "3005EA4329D8F17F00F2CC70",
+      "name" : "CalTodo"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:CalTodo.xcodeproj",
+        "identifier" : "3005EA5929D8F18100F2CC70",
+        "name" : "CalTodoTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -20,10 +20,35 @@ class TodoStore: ObservableObject {
     self.todoListIds = todoListIds
   }
 
+  // There are 2 cases to care about, need to make sure all actions are in the log and seenActionIdsSet
+  private(set) var log: [RawAction] = []
+  private var seenActionIdsSet = Set<String>()
   func run(action: TodoAction) {
+    let rawAction = RawAction(id: UUID().uuidString, type: action)
+    seenActionIdsSet.insert(rawAction.id)
+    log.append(rawAction)
+    perform(action: action)
+  }
+  func run(rawAction: RawAction) {
+    if seenActionIdsSet.contains(rawAction.id) { return }
+    seenActionIdsSet.insert(rawAction.id)
+    log.append(rawAction)
+    run(action: rawAction.type)
+  }
+
+  func deleteTodo(at offsets: IndexSet) {
+    let ids = offsets.map { todoListIds[$0] }
+    run(action: .remove(ids))
+  }
+
+  private func perform(action: TodoAction) {
     switch action {
-    case .insert(let index, let todos):
-      todoListIds.insert(contentsOf: todos.map { $0.id }, at: min(index, todoListIds.endIndex))
+    case .insert(let todos, let index):
+      todoListIds.insert(
+        contentsOf: todos.map { $0.id }, at: min(index, todoListIds.endIndex))
+      for todo in todos {
+        todoMap[todo.id] = todo
+      }
     case .editTitle(let id, let title):
       todoMap[id]?.title = title
     case .editStartDate(let id, let startDate):
@@ -41,11 +66,6 @@ class TodoStore: ObservableObject {
         todoMap.removeValue(forKey: id)
       }
     }
-  }
-
-  func deleteTodo(at offsets: IndexSet) {
-    let ids = offsets.map { todoListIds[$0] }
-    run(action: .remove(ids))
   }
 }
 private let todoFixture = [
@@ -72,7 +92,7 @@ private let todoFixture = [
 private let performanceFixture: [Todo] = [Int](0...5_000).map { Todo(title: "Example: \($0)") }
 
 enum TodoAction: Codable, Equatable {
-  case insert(Int, [Todo])
+  case insert([Todo], Int)
   case editTitle(TodoId, String)
   case editStartDate(TodoId, Date)
   case editDurationMinutes(TodoId, Int)
@@ -82,26 +102,31 @@ enum TodoAction: Codable, Equatable {
 }
 typealias TodoId = String
 
-struct RawAction: Codable {
+struct RawAction: Codable, Equatable {
   let id: String
   let type: TodoAction
 }
-func getTodoActions(from text: String) -> [TodoAction] {
+func decodeTodoActions(from text: String) -> [RawAction] {
   do {
     guard let data = text.data(using: .utf8) else { return [] }
-    let rawActions: [RawAction] = try JSONDecoder().decode([RawAction].self, from: data)
-    return rawActions.map { $0.type }
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+    let rawActions: [RawAction] = try decoder.decode([RawAction].self, from: data)
+    return rawActions
   } catch {
     print("error:\(error)")
   }
   return []
 }
-//func saveTodos(todos: [Todo]) {
-//  let encoder = JSONEncoder()
-//  do {
-//    let data = try encoder.encode(todos)
-//    try data.write(to: url)
-//  } catch {
-//    print(error)
-//  }
-//}
+func encodeTodoActions(_ todoActions: [RawAction]) -> String {
+  let encoder = JSONEncoder()
+  encoder.dateEncodingStrategy = .iso8601
+  do {
+    let data = try encoder.encode(todoActions)
+    let str = String(decoding: data, as: UTF8.self)
+    return str
+  } catch {
+    print(error)
+  }
+  return ""
+}

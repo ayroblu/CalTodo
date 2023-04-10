@@ -17,23 +17,60 @@ final class TodoStoreTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
-  func todoStoreInitialisation() throws {
+  func testEncodeAndDecodeActions() throws {
     //    let todoStore = TodoStore(todoMap: [:], todoListIds: [])
-    let todoActions = getTodoActions(from: rawJson)
+    let str = encodeTodoActions(rawActions)
+    XCTAssertEqual(str, rawJson.replacing(/\s+/, with: ""))
+    let todoActions = decodeTodoActions(from: str)
     XCTAssertEqual(todoActions, rawActions)
   }
 
+  func testDecodingIntoStore() throws {
+    let todoStore = TodoStore(todoMap: [:], todoListIds: [])
+    for rawAction in rawActions {
+      todoStore.run(rawAction: rawAction)
+    }
+    XCTAssertEqual(todoStore.todoListIds, storedTodoListId)
+    XCTAssertEqual(todoStore.todoMap, storedTodoMap)
+  }
 }
 
 private let rawJson = """
   [
-  {"id": "1", "type": "insert", "index": 0, "todo": { "title": "My title" }},
-  {"id": "123", "type": "editTitle", "todoId": "todo-1", "title": "New title"},
+  {"id": "1", "type": {"insert": {"_0": [
+    { "status": "todo", "id": "todo-1", "title": "My-title", "notes": "" },
+    { "status": "done", "id": "todo-2", "title": "Second", "notes": "" },
+    { "status": "done", "id": "todo-3", "title": "Third", "notes": "" }
+  ], "_1": 0}}},
+  {"id": "2", "type": {"editTitle": {"_0": "todo-1", "_1": "New-title"}}},
+  {"id": "3", "type": {"editStartDate": {"_0": "todo-1", "_1": "2023-04-10T02:46:12Z"}}},
+  {"id": "4", "type": {"editDurationMinutes": {"_0": "todo-1", "_1": 30}}},
+  {"id": "5", "type": {"editNotes": {"_0": "todo-1", "_1": "note"}}},
+  {"id": "6", "type": {"editStatus": {"_0": "todo-1", "_1": "done"}}},
+  {"id": "7", "type": {"remove": {"_0": ["todo-2"]}}}
   ]
   """
+private let isodate = ISO8601DateFormatter().date(from: "2023-04-10T02:46:12Z")!
 private let rawActions = [
-  TodoAction.insert(0, [Todo(id: "todo-1", title: "My title")]),
-  TodoAction.editTitle("todo-1", "New title"),
+  RawAction(
+    id: "1",
+    type: TodoAction.insert(
+      [
+        Todo(id: "todo-1", title: "My-title"),
+        Todo(id: "todo-2", title: "Second", status: "done"),
+        Todo(id: "todo-3", title: "Third", status: "done"),
+      ], 0)),
+  RawAction(id: "2", type: TodoAction.editTitle("todo-1", "New-title")),
+  RawAction(id: "3", type: TodoAction.editStartDate("todo-1", isodate)),
+  RawAction(id: "4", type: TodoAction.editDurationMinutes("todo-1", 30)),
+  RawAction(id: "5", type: TodoAction.editNotes("todo-1", "note")),
+  RawAction(id: "6", type: TodoAction.editStatus("todo-1", "done")),
+  RawAction(id: "7", type: TodoAction.remove(["todo-2"])),
 ]
-private let storedTodoListId = ["todo-1"]
-private let storedTodoMap = ["todo-1": Todo(id: "todo-1", title: "My title")]
+private let storedTodoListId = ["todo-1", "todo-3"]
+private let storedTodoMap = [
+  "todo-1": Todo(
+    id: "todo-1", title: "New-title", status: "done", startDate: isodate, durationMinutes: 30,
+    notes: "note"),
+  "todo-3": Todo(id: "todo-3", title: "Third", status: "done"),
+]

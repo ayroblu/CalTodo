@@ -100,6 +100,7 @@
 		30BA66BF29E051C600582498 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		30BA66C129E051C600582498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30BA66CB29E30EC500582498 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
+		30EDDCA329E38E7B00D17EA8 /* CalTodo.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CalTodo.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +138,7 @@
 		3005EA3B29D8F17F00F2CC70 = {
 			isa = PBXGroup;
 			children = (
+				30EDDCA329E38E7B00D17EA8 /* CalTodo.xctestplan */,
 				3005EA4629D8F17F00F2CC70 /* CalTodo */,
 				3005EA5D29D8F18100F2CC70 /* CalTodoTests */,
 				3005EA6729D8F18100F2CC70 /* CalTodoUITests */,
