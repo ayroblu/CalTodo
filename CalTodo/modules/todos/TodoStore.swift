@@ -37,6 +37,7 @@ class TodoStore: ObservableObject {
   }
 
   func deleteTodo(at offsets: IndexSet) {
+    // TODO: instead of running a delete per id, use the offsets for delete, but just save the ids in the log
     let ids = offsets.map { todoListIds[$0] }
     run(action: .remove(ids))
   }
@@ -86,8 +87,8 @@ private let todoFixture = [
   Todo(title: "Clean my screen"),
   Todo(title: "Add actions to notifications"),
   Todo(title: "Read through reading list"),
-  Todo(title: "Make the TodoListView"),
-  Todo(title: "Make the TodoListView"),
+  Todo(title: "Undo and redo buttons"),
+  Todo(title: "Clean the vents"),
 ]
 private let performanceFixture: [Todo] = [Int](0...5_000).map { Todo(title: "Example: \($0)") }
 

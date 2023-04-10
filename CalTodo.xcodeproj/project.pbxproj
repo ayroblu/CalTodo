@@ -26,6 +26,7 @@
 		30382F7029E37BC700C6EF57 /* TodoStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */; };
 		30382F7129E37CB800C6EF57 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6929E33DFD00C6EF57 /* TodoStore.swift */; };
 		30382F7229E384E100C6EF57 /* PersistedTodoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */; };
+		303DE55429E461A000A88E07 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303DE55329E461A000A88E07 /* utils.swift */; };
 		3099C2FC29DEA7AC007E726D /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FB29DEA7AC007E726D /* Example.swift */; };
 		3099C2FF29DF65FD007E726D /* PersistedTodoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */; };
 		30BA66C029E051C600582498 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA66BF29E051C600582498 /* NotificationService.swift */; };
@@ -94,6 +95,7 @@
 		300FF0E529DB8D36003D1F70 /* silence_30s.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence_30s.caf; sourceTree = SOURCE_ROOT; };
 		30382F6929E33DFD00C6EF57 /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
 		30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStoreTests.swift; sourceTree = "<group>"; };
+		303DE55329E461A000A88E07 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		3099C2FB29DEA7AC007E726D /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		3099C2FE29DF65FD007E726D /* PersistedTodoFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedTodoFile.swift; sourceTree = "<group>"; };
 		30BA66BD29E051C600582498 /* notification-handler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "notification-handler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +218,7 @@
 		300FF0D629D98435003D1F70 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				303DE55029E459E700A88E07 /* shared */,
 				30BA66B829DF685F00582498 /* todos */,
 				3099C2FA29DEA784007E726D /* apis */,
 				300FF0D829D9859F003D1F70 /* alarm */,
@@ -263,6 +266,14 @@
 				30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */,
 			);
 			path = todos;
+			sourceTree = "<group>";
+		};
+		303DE55029E459E700A88E07 /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				303DE55329E461A000A88E07 /* utils.swift */,
+			);
+			path = shared;
 			sourceTree = "<group>";
 		};
 		3099C2FA29DEA784007E726D /* apis */ = {
@@ -475,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				300FF0DE29DA039E003D1F70 /* SettingsView.swift in Sources */,
+				303DE55429E461A000A88E07 /* utils.swift in Sources */,
 				300FF0DC29DA0385003D1F70 /* TodoView.swift in Sources */,
 				30BA66CC29E30EC500582498 /* TodoListView.swift in Sources */,
 				30382F6A29E33DFD00C6EF57 /* TodoStore.swift in Sources */,

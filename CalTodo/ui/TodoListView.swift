@@ -10,18 +10,20 @@ import SwiftUI
 struct TodoListView: View {
   @EnvironmentObject private var todoStore: TodoStore
   @State private var textInput: String = ""
+  @FocusState private var focusedIndex: Int?
 
   var body: some View {
     NavigationView {
       List {
-        ForEach(todoStore.todoListIds, id: \.self) { todoId in
-          TodoItemView(todoId: todoId)
+        ForEach(Array(todoStore.todoListIds.enumerated()), id: \.element) { index, todoId in
+          // ForEach(todoStore.todoListIds, id: \.self) { todoId in
+          TodoItemView(todoId: todoId, index: index, focusedIndex: $focusedIndex)
         }
         .onDelete(perform: todoStore.deleteTodo)
       }
       .navigationTitle("Todo List")
       .listStyle(.grouped)
-      .scrollDismissesKeyboard(.immediately)
+      .scrollDismissesKeyboard(.interactively)
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
@@ -37,77 +39,130 @@ struct TodoListView: View {
             Image(systemName: "arrow.uturn.forward")
           }
         }
+
+        ToolbarItemGroup(placement: .keyboard) {
+          Button("New") {
+            if let index = focusedIndex, let focusedId = todoStore.todoListIds[safe: index],
+              let todo = todoStore.todoMap[focusedId]
+            {
+              if todo.title == "" {
+                todoStore.deleteTodo(at: IndexSet(integer: index))
+              } else {
+                todoStore.run(action: .insert([Todo(title: "")], index + 1))
+                DispatchQueue.main.async {
+                  focusedIndex = index + 1
+                }
+              }
+            }
+          }
+          Spacer()
+          Button("Done") {
+            UIApplication.shared.sendAction(
+              #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            if let index = focusedIndex, let focusedId = todoStore.todoListIds[safe: index],
+              let todo = todoStore.todoMap[focusedId], todo.title == ""
+            {
+              todoStore.deleteTodo(at: IndexSet(integer: index))
+            }
+          }
+        }
       }
     }
   }
 }
 
 struct TodoItemView: View {
+  let todoId: String
+  let index: Int
+  var focusedIndex: FocusState<Int?>.Binding
+
   @EnvironmentObject private var todoStore: TodoStore
-  var todoId: String
-  var todo: Todo {
-    todoStore.todoMap[todoId]!
+  // @FocusState private var isFocused: Bool
+  var todo: Todo? {
+    todoStore.todoMap[todoId]
   }
 
   var body: some View {
-    let btodoTitle: Binding<String> = Binding(
-      get: { todo.title },
-      set: {
-        todoStore.run(action: .editTitle(todoId, $0))
-      }
-    )
-    let btodoNotes: Binding<String> = Binding(
-      get: { todo.notes },
-      set: {
-        todoStore.run(action: .editNotes(todoId, $0))
-      }
-    )
-    let btodoStartDate: Binding<Date> = Binding(
-      get: { todo.startDate ?? Date() },
-      set: {
-        todoStore.run(action: .editStartDate(todoId, $0))
-      }
-    )
-    return NavigationLink {
-      List {
-        Section {
-          TextField(
-            "Todo Text",
-            text: btodoTitle, axis: .vertical
-          )
-        }
-        DatePicker(
-          "Start Date", selection: btodoStartDate)
-        Section {
-          TextField(
-            "Notes",
-            text: btodoNotes, axis: .vertical
-          )
-          .lineLimit(10, reservesSpace: true)
-        }
-      }
-      .listStyle(.grouped)
-    } label: {
-      HStack(alignment: .firstTextBaseline) {
-        if todo.isCompleted {
-          Image(systemName: "checkmark.circle.fill")
-            .onTapGesture {
-              todoStore.run(action: .editStatus(todoId, "todo"))
+    VStack {
+      if let todo = todo {
+        let btodoTitle: Binding<String> = Binding(
+          get: { todo.title },
+          set: {
+            todoStore.run(action: .editTitle(todoId, $0))
+          }
+        )
+        let btodoNotes: Binding<String> = Binding(
+          get: { todo.notes },
+          set: {
+            todoStore.run(action: .editNotes(todoId, $0))
+          }
+        )
+        let btodoStartDate: Binding<Date> = Binding(
+          get: { todo.startDate ?? Date() },
+          set: {
+            todoStore.run(action: .editStartDate(todoId, $0))
+          }
+        )
+        NavigationLink {
+          List {
+            Section {
+              TextField(
+                "Todo Text",
+                text: btodoTitle, axis: .vertical
+              )
             }
-            .opacity(0.5)
-          Text(todo.title)
-            .strikethrough()
-            .opacity(0.5)
-        } else {
-          Image(systemName: "circle")
-            .onTapGesture {
-              todoStore.run(action: .editStatus(todoId, "done"))
+            DatePicker(
+              "Start Date", selection: btodoStartDate)
+            Section {
+              TextField(
+                "Notes",
+                text: btodoNotes, axis: .vertical
+              )
+              .lineLimit(10, reservesSpace: true)
             }
-          TextField(
-            "Todo tasks",
-            text: btodoTitle, axis: .vertical  // there's a bug with this that makes it twice as big when empty
-          )
+          }
+          .listStyle(.grouped)
+        } label: {
+          HStack(alignment: .firstTextBaseline) {
+            if todo.isCompleted {
+              Image(systemName: "checkmark.circle.fill")
+                .onTapGesture {
+                  todoStore.run(action: .editStatus(todoId, "todo"))
+                }
+                .opacity(0.5)
+              Text(todo.title)
+                .strikethrough()
+                .opacity(0.5)
+            } else {
+              Image(systemName: "circle")
+                .onTapGesture {
+                  todoStore.run(action: .editStatus(todoId, "done"))
+                }
+              TextField(
+                "Todo tasks",
+                text: btodoTitle  // there's a bug with this that makes it twice as big when empty
+                  , axis: .vertical
+              )
+              //              .onSubmit {
+              //                if todo.title == "" {
+              //                  todoStore.deleteTodo(at: IndexSet(integer: index))
+              //                } else {
+              //                  todoStore.run(action: .insert([Todo(title: "")], index + 1))
+              //                  focusedIndex.wrappedValue = index + 1
+              //                }
+              //              }
+              .focused(focusedIndex, equals: index)
+              //                            .onChange(of: isFocused) { isFocused in
+              //                              if !isFocused && todo.title == "" {
+              //                                todoStore.deleteTodo(at: IndexSet(integer: index))
+              //                              } else if isFocused && todo.title == "" {
+              //                              }
+              //                            }
+            }
+          }
         }
+      } else {
+        EmptyView()
       }
     }
   }

@@ -24,12 +24,6 @@ Ideas
 - Alert type - sound? vibration? macOS, or phone alert?
 - Add notes
 
-UI Model
---------
-- Stack? Split view?
-- Main view - list
-- Settings view - especially defaults
-
 TODO
 ----
 1. Notification methods:
@@ -54,6 +48,16 @@ TODO
   - Save in json file
 - Make everything an "action" with "invalid" actions like delete an event that doesn't exist do nothing. (for syncing)
 - Settings by group, e.g. default notification delay, "available" hours
+
+### Data sync
+
+- Every device has its own "log"
+- Always append to the log
+- Timestamps?
+- Store a "cache" of the todoMap and listIds (per device) + metadata on how many lines down the log for each "seen" device it is
+- Separate old comleted todos and current todos
+- Edit in vim???
+- For new data on different devices, interleave by timestamp? Maybe set cursors?
 
 Notification sound
 ------------------
