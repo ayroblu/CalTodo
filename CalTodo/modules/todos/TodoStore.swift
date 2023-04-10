@@ -10,6 +10,7 @@ import Foundation
 class TodoStore: ObservableObject {
   @Published private(set) var todoMap: [String: Todo] = [:]
   @Published private(set) var todoListIds: [String] = []
+  private(set) var undoManager = UndoManager()
 
   init(
     todoMap: [String: Todo] = Dictionary(
@@ -43,6 +44,7 @@ class TodoStore: ObservableObject {
   }
 
   private func perform(action: TodoAction) {
+    registerUndo(action: action)
     switch action {
     case .insert(let todos, let index):
       todoListIds.insert(
@@ -67,6 +69,34 @@ class TodoStore: ObservableObject {
         todoMap.removeValue(forKey: id)
       }
     }
+  }
+  private func registerUndo(action: TodoAction) {
+    let undoAction = reverseAction(action)
+    undoManager.registerUndo(withTarget: self) { store in
+      print("Running store undo")
+      store.run(action: undoAction)
+    }
+  }
+  private func reverseAction(_ action: TodoAction) -> TodoAction {
+    switch action {
+    case .insert(let todos, let index):
+      print("Todo")
+    case .editTitle(let id, let title):
+      print("Todo")
+    case .editStartDate(let id, let startDate):
+      print("Todo")
+    case .editDurationMinutes(let id, let durationMinutes):
+      print("Todo")
+    case .editNotes(let id, let notes):
+      print("Todo")
+    case .editStatus(let id, _):
+      if let status = todoMap[id]?.status {
+        return .editStatus(id, status)
+      }
+    case .remove(let ids):
+      print("Todo")
+    }
+    return .insert([Todo(title: "todo")], 0)
   }
 }
 private let todoFixture = [

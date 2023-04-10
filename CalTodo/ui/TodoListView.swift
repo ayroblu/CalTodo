@@ -27,17 +27,19 @@ struct TodoListView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            print("Pressed")
+            todoStore.undoManager.undo()
           } label: {
             Image(systemName: "arrow.uturn.backward")
           }
+          .disabled(!todoStore.undoManager.canUndo)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            print("Pressed")
+            todoStore.undoManager.redo()
           } label: {
             Image(systemName: "arrow.uturn.forward")
           }
+          .disabled(!todoStore.undoManager.canRedo)
         }
 
         ToolbarItemGroup(placement: .keyboard) {
@@ -119,6 +121,7 @@ struct TodoItemView: View {
                 text: btodoNotes, axis: .vertical
               )
               .lineLimit(10, reservesSpace: true)
+
             }
           }
           .listStyle(.grouped)
@@ -137,6 +140,18 @@ struct TodoItemView: View {
               Image(systemName: "circle")
                 .onTapGesture {
                   todoStore.run(action: .editStatus(todoId, "done"))
+                  //                  undoManager?.registerUndo(withTarget: todoStore) { store in
+                  //                    print("Running undo \(todo.status)")
+                  //                    store.run(action: .editStatus(todoId, todo.status))
+                  //                    undoManager?.registerUndo(withTarget: todoStore) { store in
+                  //                      print("Running second undo \(todo.status)")
+                  //                      store.run(action: .editStatus(todoId, "done"))
+                  //                      undoManager?.registerUndo(withTarget: todoStore) { store in
+                  //                        print("Running third undo \(todo.status)")
+                  //                        store.run(action: .editStatus(todoId, todo.status))
+                  //                      }
+                  //                    }
+                  //                  }
                 }
               TextField(
                 "Todo tasks",
@@ -161,6 +176,13 @@ struct TodoItemView: View {
             }
           }
         }
+        //        .onChange(of: todoStore.todoMap[todoId]?.status) { newValue in
+        //          print("Register todo")
+        //          undoManager?.registerUndo(withTarget: todoStore) { store in
+        //            print("Running undo \(todo.status)")
+        //            todoStore.run(action: .editStatus(todoId, todo.status))
+        //          }
+        //        }
       } else {
         EmptyView()
       }

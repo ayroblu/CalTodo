@@ -25,9 +25,9 @@ struct CalTodoApp: App {
         print("Active")
         let center = UNUserNotificationCenter.current()
         // TODO: Use saved / specific identifiers
-        center.getPendingNotificationRequests(completionHandler: { requests in
-          print(requests.count)
-        })
+        //        center.getPendingNotificationRequests(completionHandler: { requests in
+        //          print(requests.count)
+        //        })
         center.removeAllDeliveredNotifications()
         center.removeAllPendingNotificationRequests()
       } else if newPhase == .background {
