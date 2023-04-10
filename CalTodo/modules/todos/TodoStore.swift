@@ -68,35 +68,49 @@ class TodoStore: ObservableObject {
       for id in ids {
         todoMap.removeValue(forKey: id)
       }
+    case .noop:
+      ()
     }
   }
   private func registerUndo(action: TodoAction) {
     let undoAction = reverseAction(action)
     undoManager.registerUndo(withTarget: self) { store in
-      print("Running store undo")
       store.run(action: undoAction)
     }
   }
   private func reverseAction(_ action: TodoAction) -> TodoAction {
     switch action {
-    case .insert(let todos, let index):
-      print("Todo")
-    case .editTitle(let id, let title):
-      print("Todo")
-    case .editStartDate(let id, let startDate):
-      print("Todo")
-    case .editDurationMinutes(let id, let durationMinutes):
-      print("Todo")
-    case .editNotes(let id, let notes):
-      print("Todo")
+    case .insert(let todos, _):
+      return .remove(todos.map { $0.id })
+    case .editTitle(let id, _):
+      if let title = todoMap[id]?.title {
+        return .editTitle(id, title)
+      }
+    case .editStartDate(let id, _):
+      if let startDate = todoMap[id]?.startDate {
+        return .editStartDate(id, startDate)
+      }
+    case .editDurationMinutes(let id, _):
+      if let durationMinutes = todoMap[id]?.durationMinutes {
+        return .editDurationMinutes(id, durationMinutes)
+      }
+    case .editNotes(let id, _):
+      if let notes = todoMap[id]?.notes {
+        return .editNotes(id, notes)
+      }
     case .editStatus(let id, _):
       if let status = todoMap[id]?.status {
         return .editStatus(id, status)
       }
     case .remove(let ids):
-      print("Todo")
+      if let id = ids.first, let index = todoListIds.firstIndex(of: id) {
+        let todos = ids.compactMap({ todoMap[$0] })
+        return .insert(todos, index)
+      }
+    case .noop:
+      return .noop
     }
-    return .insert([Todo(title: "todo")], 0)
+    return .noop
   }
 }
 private let todoFixture = [
@@ -130,6 +144,7 @@ enum TodoAction: Codable, Equatable {
   case editNotes(TodoId, String)
   case editStatus(TodoId, String)
   case remove([TodoId])
+  case noop
 }
 typealias TodoId = String
 

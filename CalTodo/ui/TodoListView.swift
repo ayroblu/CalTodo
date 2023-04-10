@@ -78,6 +78,7 @@ struct TodoItemView: View {
   let index: Int
   var focusedIndex: FocusState<Int?>.Binding
 
+  @State private var tempTitle: String?
   @EnvironmentObject private var todoStore: TodoStore
   // @FocusState private var isFocused: Bool
   var todo: Todo? {
@@ -121,7 +122,6 @@ struct TodoItemView: View {
                 text: btodoNotes, axis: .vertical
               )
               .lineLimit(10, reservesSpace: true)
-
             }
           }
           .listStyle(.grouped)
@@ -140,55 +140,73 @@ struct TodoItemView: View {
               Image(systemName: "circle")
                 .onTapGesture {
                   todoStore.run(action: .editStatus(todoId, "done"))
-                  //                  undoManager?.registerUndo(withTarget: todoStore) { store in
-                  //                    print("Running undo \(todo.status)")
-                  //                    store.run(action: .editStatus(todoId, todo.status))
-                  //                    undoManager?.registerUndo(withTarget: todoStore) { store in
-                  //                      print("Running second undo \(todo.status)")
-                  //                      store.run(action: .editStatus(todoId, "done"))
-                  //                      undoManager?.registerUndo(withTarget: todoStore) { store in
-                  //                        print("Running third undo \(todo.status)")
-                  //                        store.run(action: .editStatus(todoId, todo.status))
-                  //                      }
-                  //                    }
-                  //                  }
                 }
-              TextField(
-                "Todo tasks",
-                text: btodoTitle  // there's a bug with this that makes it twice as big when empty
-                  , axis: .vertical
-              )
-              //              .onSubmit {
-              //                if todo.title == "" {
-              //                  todoStore.deleteTodo(at: IndexSet(integer: index))
-              //                } else {
-              //                  todoStore.run(action: .insert([Todo(title: "")], index + 1))
-              //                  focusedIndex.wrappedValue = index + 1
-              //                }
-              //              }
-              .focused(focusedIndex, equals: index)
-              //                            .onChange(of: isFocused) { isFocused in
-              //                              if !isFocused && todo.title == "" {
-              //                                todoStore.deleteTodo(at: IndexSet(integer: index))
-              //                              } else if isFocused && todo.title == "" {
-              //                              }
-              //                            }
+              // UIKitTextField(text: btodoTitle)
+              // there's a bug with axis that makes it twice as big when empty
+              TextField("", text: btodoTitle, axis: .vertical)
+                // onEditingChanged: { isFocused in
+                //   if !isFocused {
+                //     if let tempTitle = tempTitle {
+                //       todoStore.run(action: .editTitle(todoId, tempTitle))
+                //     }
+                //   }
+                // }
+                .focused(focusedIndex, equals: index)
             }
           }
         }
-        //        .onChange(of: todoStore.todoMap[todoId]?.status) { newValue in
-        //          print("Register todo")
-        //          undoManager?.registerUndo(withTarget: todoStore) { store in
-        //            print("Running undo \(todo.status)")
-        //            todoStore.run(action: .editStatus(todoId, todo.status))
-        //          }
-        //        }
       } else {
         EmptyView()
       }
     }
   }
 }
+
+// struct UIKitTextField: UIViewRepresentable {
+//   @Binding var text: String
+//   var placeholder: String = ""
+//
+//   func makeCoordinator() -> Coordinator {
+//     Coordinator(text: $text)
+//   }
+//
+//   func makeUIView(context: Context) -> UITextField {
+//     let textField = UITextField()
+//
+//     textField.text = text
+//     textField.addTarget(
+//       context.coordinator, action: #selector(context.coordinator.textChanged), for: .editingChanged)
+//
+//     textField.delegate = context.coordinator
+//     textField.placeholder = placeholder
+//     // textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
+//
+//     return textField
+//   }
+//
+//   func updateUIView(_ textField: UITextField, context: Context) {
+//     textField.text = text
+//   }
+//
+//   public final class Coordinator: NSObject, UITextFieldDelegate {
+//     @Binding private var text: String
+//
+//     public init(text: Binding<String>) {
+//       self._text = text
+//     }
+//
+//     @objc func textChanged(_ sender: UITextField) {
+//       guard let text = sender.text else { return }
+//       self.text = text
+//     }
+//     @objc public func textFieldDidEndEditing(
+//       _ textField: UITextField, reason: UITextField.DidEndEditingReason
+//     ) {
+//       // guard let text = sender.text else { return }
+//       // self.text = text
+//     }
+//   }
+// }
 
 struct TodoListView_Previews: PreviewProvider {
   static var previews: some View {
