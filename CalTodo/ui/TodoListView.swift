@@ -27,7 +27,7 @@ struct TodoListView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            todoStore.undoManager.undo()
+            todoStore.undo()
           } label: {
             Image(systemName: "arrow.uturn.backward")
           }
@@ -35,7 +35,7 @@ struct TodoListView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
-            todoStore.undoManager.redo()
+            todoStore.redo()
           } label: {
             Image(systemName: "arrow.uturn.forward")
           }

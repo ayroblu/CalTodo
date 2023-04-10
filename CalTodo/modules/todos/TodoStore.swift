@@ -24,23 +24,38 @@ class TodoStore: ObservableObject {
   // There are 2 cases to care about, need to make sure all actions are in the log and seenActionIdsSet
   private(set) var log: [RawAction] = []
   private var seenActionIdsSet = Set<String>()
+  // Interactively called by the user
   func run(action: TodoAction) {
     let rawAction = RawAction(id: UUID().uuidString, type: action)
     seenActionIdsSet.insert(rawAction.id)
     log.append(rawAction)
     perform(action: action)
   }
+  // Called from disk logs
   func run(rawAction: RawAction) {
     if seenActionIdsSet.contains(rawAction.id) { return }
     seenActionIdsSet.insert(rawAction.id)
     log.append(rawAction)
-    run(action: rawAction.type)
+    perform(action: rawAction.type)
   }
 
   func deleteTodo(at offsets: IndexSet) {
     // TODO: instead of running a delete per id, use the offsets for delete, but just save the ids in the log
     let ids = offsets.map { todoListIds[$0] }
     run(action: .remove(ids))
+  }
+
+  // TODO: If action is performed on child screen, remove from undo stack? Perform navigation?
+  private var isUndoGrouping = false
+  func undo() {
+    if isUndoGrouping {
+      undoManager.endUndoGrouping()
+      isUndoGrouping = false
+    }
+    undoManager.undo()
+  }
+  func redo() {
+    undoManager.redo()
   }
 
   private func perform(action: TodoAction) {
@@ -74,9 +89,30 @@ class TodoStore: ObservableObject {
   }
   private func registerUndo(action: TodoAction) {
     let undoAction = reverseAction(action)
+    if !undoManager.isUndoing && !undoManager.isRedoing {
+      handleGrouping(action: action)
+    }
     undoManager.registerUndo(withTarget: self) { store in
       store.run(action: undoAction)
     }
+  }
+  // TODO: Leverage this to build a buffer of log events that you can compact in memory before persisting in the log
+  private var lastAction: TodoAction?
+  private func handleGrouping(action: TodoAction) {
+    if let lastAction = lastAction {
+      if !isGroupable(action: action, previousAction: lastAction) {
+        if isUndoGrouping {
+          undoManager.endUndoGrouping()
+          isUndoGrouping = false
+        }
+        undoManager.beginUndoGrouping()
+        isUndoGrouping = true
+      }
+    } else {
+      undoManager.beginUndoGrouping()
+      isUndoGrouping = true
+    }
+    lastAction = action
   }
   private func reverseAction(_ action: TodoAction) -> TodoAction {
     switch action {
@@ -112,6 +148,22 @@ class TodoStore: ObservableObject {
     }
     return .noop
   }
+  private func isGroupable(action: TodoAction, previousAction: TodoAction) -> Bool {
+    switch (action, previousAction) {
+    case (.editTitle(let id, _), .editTitle(let lastId, _)):
+      return id == lastId
+    case (.editStartDate(let id, _), .editStartDate(let lastId, _)):
+      return id == lastId
+    case (.editDurationMinutes(let id, _), .editDurationMinutes(let lastId, _)):
+      return id == lastId
+    case (.editNotes(let id, _), .editNotes(let lastId, _)):
+      return id == lastId
+    case (.editStatus(let id, _), .editStatus(let lastId, _)):
+      return id == lastId
+    default:
+      return false
+    }
+  }
 }
 private let todoFixture = [
   Todo(title: "Make the TodoListView", status: "done"),
@@ -145,6 +197,11 @@ enum TodoAction: Codable, Equatable {
   case editStatus(TodoId, String)
   case remove([TodoId])
   case noop
+
+  // https://gist.github.com/qmchenry/a3b317a8cc47bd06aeabc0ddf95ba113
+  var caseName: String {
+    return Mirror(reflecting: self).children.first?.label ?? String(describing: self)
+  }
 }
 typealias TodoId = String
 
