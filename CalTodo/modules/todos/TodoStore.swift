@@ -15,8 +15,8 @@ class TodoStore: ObservableObject {
 
   init(
     todoMap: [String: Todo] = Dictionary(
-      uniqueKeysWithValues: performanceFixture.map { ($0.id, $0) }),
-    todoListIds: [String] = performanceFixture.map { $0.id }
+      uniqueKeysWithValues: todoFixture.map { ($0.id, $0) }),
+    todoListIds: [String] = todoFixture.map { $0.id }
   ) {
     self.todoMap = todoMap
     self.todoListIds = todoListIds

@@ -32,6 +32,7 @@ Ideas
 TODO
 ----
 - Persist data on disk (perhaps on app quit?)
+- Async loading
 - Add new items
 - cloud sync?
 - macOS integration?
@@ -52,6 +53,10 @@ TODO
 - Separate old comleted todos and current todos
 - Edit in vim???
 - For new data on different devices, interleave by timestamp? Maybe set cursors?
+- Name: Just UUID for the lifetime of the device (device identifier)
+  - https://stackoverflow.com/questions/26028918/how-to-determine-the-current-iphone-device-model
+    - cute but unnecessary
+  - Just a "backing store", so no human interaction "allowed"
 
 Notification sound
 ------------------

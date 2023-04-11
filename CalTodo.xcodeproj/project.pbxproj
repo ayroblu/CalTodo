@@ -22,6 +22,7 @@
 		300FF0E029DA03AF003D1F70 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0DF29DA03AF003D1F70 /* CalendarView.swift */; };
 		300FF0E229DA0B44003D1F70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FF0E129DA0B44003D1F70 /* AppDelegate.swift */; };
 		300FF0E629DB8D36003D1F70 /* silence_30s.caf in Resources */ = {isa = PBXBuildFile; fileRef = 300FF0E529DB8D36003D1F70 /* silence_30s.caf */; };
+		302BB30A29E549DD005C3390 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303DE55329E461A000A88E07 /* utils.swift */; };
 		30382F6A29E33DFD00C6EF57 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6929E33DFD00C6EF57 /* TodoStore.swift */; };
 		30382F7029E37BC700C6EF57 /* TodoStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6F29E37BC700C6EF57 /* TodoStoreTests.swift */; };
 		30382F7129E37CB800C6EF57 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30382F6929E33DFD00C6EF57 /* TodoStore.swift */; };
@@ -506,6 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				302BB30A29E549DD005C3390 /* utils.swift in Sources */,
 				3005EA5F29D8F18100F2CC70 /* CalTodoTests.swift in Sources */,
 				30382F7029E37BC700C6EF57 /* TodoStoreTests.swift in Sources */,
 				30382F7129E37CB800C6EF57 /* TodoStore.swift in Sources */,

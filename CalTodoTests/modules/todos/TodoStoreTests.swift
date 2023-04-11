@@ -18,7 +18,6 @@ final class TodoStoreTests: XCTestCase {
   }
 
   func testEncodeAndDecodeActions() throws {
-    //    let todoStore = TodoStore(todoMap: [:], todoListIds: [])
     let str = encodeTodoActions(rawActions)
     XCTAssertEqual(str, rawJson.replacing(/\s+/, with: ""))
     let todoActions = decodeTodoActions(from: str)
@@ -32,6 +31,21 @@ final class TodoStoreTests: XCTestCase {
     }
     XCTAssertEqual(todoStore.todoListIds, storedTodoListId)
     XCTAssertEqual(todoStore.todoMap, storedTodoMap)
+  }
+
+  func testInvalidJsonShouldReturnNothing() throws {
+    let todoActions = decodeTodoActions(from: invalidJson)
+    XCTAssertEqual(todoActions, [])
+  }
+
+  func testExtraPropertyJsonIgnored() throws {
+    let todoActions = decodeTodoActions(from: extraPropertyJson)
+    XCTAssertEqual(todoActions, singleTodoActions)
+  }
+
+  func testInvalidDatePropertyJsonReturnsNothing() throws {
+    let todoActions = decodeTodoActions(from: invalidDateJson)
+    XCTAssertEqual(todoActions, [])
   }
 }
 
@@ -74,3 +88,30 @@ private let storedTodoMap = [
     notes: "note"),
   "todo-3": Todo(id: "todo-3", title: "Third", status: "done"),
 ]
+private let invalidJson = """
+  {"id": "1", "type": {"insert": {"_0": [
+    { "status": "todo", "id": "todo-1", "title": "My-title", "notes": "" },
+  ], "_1": 0}}}
+  """
+private let extraPropertyJson = """
+  [
+  {"id": "1", "type": {"insert": {"_0": [
+    { "status": "todo", "id": "todo-1", "title": "My-title", "notes": "", "extra": "todo" }
+  ], "_1": 0}}},
+  ]
+  """
+private let singleTodoActions = [
+  RawAction(
+    id: "1",
+    type: TodoAction.insert(
+      [
+        Todo(id: "todo-1", title: "My-title")
+      ], 0))
+]
+private let invalidDateJson = """
+  [
+  {"id": "1", "type": {"insert": {"_0": [
+    { "status": "todo", "id": "todo-1", "title": "My-title", "notes": "", "startDate": "2023-04-10 02:46:12Z" }
+  ], "_1": 0}}},
+  ]
+  """
