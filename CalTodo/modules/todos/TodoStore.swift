@@ -15,8 +15,8 @@ class TodoStore: ObservableObject {
 
   init(
     todoMap: [String: Todo] = Dictionary(
-      uniqueKeysWithValues: todoFixture.map { ($0.id, $0) }),
-    todoListIds: [String] = todoFixture.map { $0.id }
+      uniqueKeysWithValues: mainFixture.map { ($0.id, $0) }),
+    todoListIds: [String] = mainFixture.map { $0.id }
   ) {
     self.todoMap = todoMap
     self.todoListIds = todoListIds
@@ -134,8 +134,8 @@ class TodoStore: ObservableObject {
         return .editTitle(id, title)
       }
     case .editStartDate(let id, _):
-      if let startDate = todoMap[id]?.startDate {
-        return .editStartDate(id, startDate)
+      if let todo = todoMap[id] {
+        return .editStartDate(id, todo.startDate)
       }
     case .editDurationMinutes(let id, _):
       if let durationMinutes = todoMap[id]?.durationMinutes {
@@ -204,11 +204,12 @@ private let todoFixture = [
   Todo(title: "Clean the vents"),
 ]
 private let performanceFixture: [Todo] = [Int](0...5_000).map { Todo(title: "Example: \($0)") }
+private let mainFixture = todoFixture
 
 enum TodoAction: Codable, Equatable {
   case insert([Todo], Int)
   case editTitle(TodoId, String)
-  case editStartDate(TodoId, Date)
+  case editStartDate(TodoId, Date?)
   case editDurationMinutes(TodoId, Int)
   case editNotes(TodoId, String)
   case editStatus(TodoId, String)

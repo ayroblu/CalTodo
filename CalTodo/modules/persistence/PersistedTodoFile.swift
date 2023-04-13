@@ -27,7 +27,7 @@ struct Todo: Codable, Identifiable, Equatable {
   //      return nil
   //    }
   //  }
-  var durationMinutes: Int?
+  var durationMinutes: Int = 30
   // var endIsoDate: String?
   var notes: String = ""
 }

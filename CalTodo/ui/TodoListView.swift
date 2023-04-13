@@ -10,17 +10,39 @@ import SwiftUI
 struct TodoListView: View {
   @EnvironmentObject private var todoStore: TodoStore
   @State private var textInput: String = ""
+  @State private var sheetId: String?
+
   @FocusState private var focusedIndex: Int?
+  @State var data: [(String, [Int])] = [
+    ("hours", Array(0...24)),
+    ("minutes", Array(stride(from: 0, to: 55, by: 5))),
+  ]
+
+  @State private var isDurationOpen: Bool = false
 
   var body: some View {
+    let bisSheetPresented: Binding<Bool> = Binding(get: {
+      sheetId != nil
+    }) {
+      sheetId = $0 ? "" : nil
+    }
     NavigationView {
       List {
         ForEach(Array(todoStore.todoListIds.enumerated()), id: \.element) { index, todoId in
-          // ForEach(todoStore.todoListIds, id: \.self) { todoId in
-          TodoItemView(todoId: todoId, index: index, focusedIndex: $focusedIndex)
+          TodoItemView(todoId: todoId, index: index, focusedIndex: $focusedIndex, sheetId: $sheetId)
+          // TodoItemView(todoId: todoId, index: index, focusedIndex: $focusedIndex)
         }
         .onDelete(perform: todoStore.deleteTodo)
         .onMove(perform: todoStore.moveTodo)
+        if focusedIndex == nil {
+          Button("Add todo") {
+            let index = todoStore.todoListIds.endIndex
+            todoStore.run(action: .insert([Todo(title: "")], index))
+            DispatchQueue.main.async {
+              focusedIndex = index
+            }
+          }
+        }
       }
       .navigationTitle("Todo List")
       .listStyle(.grouped)
@@ -71,6 +93,100 @@ struct TodoListView: View {
         }
       }
     }
+    .sheet(isPresented: bisSheetPresented) {
+      NavigationView {
+        List {
+          if let todoId = sheetId, let todo = todoStore.todoMap[todoId] {
+            let btodoTitle: Binding<String> = Binding(
+              get: { todo.title },
+              set: {
+                if todo.title != $0 {
+                  todoStore.run(action: .editTitle(todoId, $0))
+                }
+              }
+            )
+            let btodoNotes: Binding<String> = Binding(
+              get: { todo.notes },
+              set: {
+                if todo.notes != $0 {
+                  todoStore.run(action: .editNotes(todoId, $0))
+                }
+              }
+            )
+
+            Section {
+              TextField(
+                "Todo Text",
+                text: btodoTitle, axis: .vertical
+              )
+            }
+            let bisStartDate: Binding<Bool> = Binding(
+              get: { todo.startDate != nil },
+              set: {
+                let startDate = $0 ? Date() : nil
+                // Doesn't actually work?
+                withAnimation {
+                  todoStore.run(action: .editStartDate(todoId, startDate))
+                }
+              }
+            )
+            Toggle(isOn: bisStartDate) {
+              Text("Start Date")
+            }
+            if let startDate = todo.startDate {
+              let bstartDate: Binding<Date> = Binding(
+                get: { startDate },
+                set: {
+                  todoStore.run(action: .editStartDate(todoId, $0))
+                }
+              )
+              DatePicker("", selection: bstartDate)
+            }
+            Button {
+              withAnimation {
+                isDurationOpen.toggle()
+              }
+            } label: {
+              HStack {
+                Text("Duration")
+                Spacer()
+                Text(
+                  "\(todo.durationMinutes >= 60 ? "\(todo.durationMinutes / 60)h " : "")\(todo.durationMinutes % 60)m"
+                )
+              }
+              .contentShape(Rectangle())
+            }
+            .buttonStyle(ListButtonStyle())
+            .listRowInsets(EdgeInsets())
+
+            let bselection: Binding<[Int]> = Binding(
+              get: { [todo.durationMinutes / 60, todo.durationMinutes % 60] },
+              set: {
+                todoStore.run(action: .editDurationMinutes(todoId, $0[0] * 60 + $0[1]))
+              })
+            if isDurationOpen {
+              MultiPicker(data: data, selection: bselection).frame(height: 200)
+            }
+            Section {
+              TextField(
+                "Notes",
+                text: btodoNotes, axis: .vertical
+              )
+              .lineLimit(10, reservesSpace: true)
+            }
+          }
+        }
+        .listStyle(.insetGrouped)
+        .toolbar {
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button("Done") {
+              sheetId = nil
+            }
+          }
+        }
+        .navigationBarTitle("Details", displayMode: .inline)
+      }
+    }
   }
 }
 
@@ -78,8 +194,8 @@ struct TodoItemView: View {
   let todoId: String
   let index: Int
   var focusedIndex: FocusState<Int?>.Binding
+  var sheetId: Binding<String?>
 
-  @State private var tempTitle: String?
   @EnvironmentObject private var todoStore: TodoStore
   // @FocusState private var isFocused: Bool
   var todo: Todo? {
@@ -89,77 +205,90 @@ struct TodoItemView: View {
   var body: some View {
     VStack {
       if let todo = todo {
-        let btodoTitle: Binding<String> = Binding(
-          get: { todo.title },
-          set: {
-            todoStore.run(action: .editTitle(todoId, $0))
-          }
-        )
-        let btodoNotes: Binding<String> = Binding(
-          get: { todo.notes },
-          set: {
-            todoStore.run(action: .editNotes(todoId, $0))
-          }
-        )
-        let btodoStartDate: Binding<Date> = Binding(
-          get: { todo.startDate ?? Date() },
-          set: {
-            todoStore.run(action: .editStartDate(todoId, $0))
-          }
-        )
-        NavigationLink {
-          List {
-            Section {
-              TextField(
-                "Todo Text",
-                text: btodoTitle, axis: .vertical
-              )
-            }
-            DatePicker(
-              "Start Date", selection: btodoStartDate)
-            Section {
-              TextField(
-                "Notes",
-                text: btodoNotes, axis: .vertical
-              )
-              .lineLimit(10, reservesSpace: true)
-            }
-          }
-          .listStyle(.grouped)
-        } label: {
-          HStack(alignment: .firstTextBaseline) {
-            if todo.isCompleted {
-              Image(systemName: "checkmark.circle.fill")
-                .onTapGesture {
-                  todoStore.run(action: .editStatus(todoId, "todo"))
+        HStack(alignment: .firstTextBaseline) {
+          if todo.isCompleted {
+            Image(systemName: "checkmark.circle.fill")
+              .onTapGesture {
+                todoStore.run(action: .editStatus(todoId, "todo"))
+              }
+              .opacity(0.5)
+            Text(todo.title)
+              .strikethrough()
+              .opacity(0.5)
+          } else {
+            Image(systemName: "circle")
+              .onTapGesture {
+                todoStore.run(action: .editStatus(todoId, "done"))
+              }
+            // UIKitTextField(text: btodoTitle)
+            let btodoTitle: Binding<String> = Binding(
+              get: { todo.title },
+              set: {
+                if todo.title != $0 {
+                  todoStore.run(action: .editTitle(todoId, $0))
                 }
-                .opacity(0.5)
-              Text(todo.title)
-                .strikethrough()
-                .opacity(0.5)
-            } else {
-              Image(systemName: "circle")
-                .onTapGesture {
-                  todoStore.run(action: .editStatus(todoId, "done"))
-                }
-              // UIKitTextField(text: btodoTitle)
-              // there's a bug with axis that makes it twice as big when empty
+              }
+            )
+            VStack {
+              // there's a bug with axis that offsets it when empty
               TextField("", text: btodoTitle, axis: .vertical)
-                // onEditingChanged: { isFocused in
-                //   if !isFocused {
-                //     if let tempTitle = tempTitle {
-                //       todoStore.run(action: .editTitle(todoId, tempTitle))
-                //     }
-                //   }
-                // }
                 .focused(focusedIndex, equals: index)
+                .offset(y: todo.title.isEmpty ? -15 : 0)
+              HStack {
+                Text("\(todo.durationMinutes)m")
+                Spacer()
+              }
+              .font(.system(size: 12))
+              .opacity(0.5)
             }
           }
+          Spacer(minLength: 0)
+          Image(systemName: "info.circle")
+            .opacity(focusedIndex.wrappedValue == index ? 1 : 0.3)
+            .onTapGesture {
+              sheetId.wrappedValue = todoId
+            }
         }
-      } else {
-        EmptyView()
       }
     }
+  }
+}
+// Rewrite with this: https://github.com/laevandus/SwiftUIDateDurationPicker/blob/main/SwiftUIDateDurationPicker/SwiftUIDateDurationPicker/DateDurationPicker.swift
+struct MultiPicker: View {
+
+  typealias Label = String
+  typealias Entry = Int
+
+  let data: [(Label, [Entry])]
+  @Binding var selection: [Entry]
+
+  var body: some View {
+    GeometryReader { geometry in
+      HStack {
+        ForEach(0..<self.data.count, id: \.self) { column in
+          Picker(self.data[column].0, selection: self.$selection[column]) {
+            ForEach(0..<self.data[column].1.count, id: \.self) { row in
+              Text(verbatim: "\(self.data[column].1[row])")
+                .tag(self.data[column].1[row])
+            }
+          }
+          .pickerStyle(.wheel)
+          .frame(
+            width: geometry.size.width / CGFloat(self.data.count), height: geometry.size.height
+          )
+          .clipped()
+        }
+      }
+    }
+  }
+}
+struct ListButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .padding()
+      .background(configuration.isPressed ? Color(red: 0.4, green: 0.4, blue: 0.4) : nil)
+      .animation(.linear, value: configuration.isPressed)
+    // .foregroundColor(.white)
   }
 }
 
